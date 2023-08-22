@@ -1,6 +1,7 @@
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
+builder.Services.AddServerSideBlazor();
 
 var app = builder.Build();
 
@@ -14,6 +15,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
+app.MapBlazorHub();
 
 app.MapGet("/", () => Results.LocalRedirect("/doorway"));
 app.MapGet("/error", () => "something went wrong...");

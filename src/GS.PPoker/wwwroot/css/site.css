@@ -1,4 +1,6 @@
-﻿:root {
+﻿@import "blazor-error.css";
+
+:root {
     color-scheme: light dark;
     direction: rtl;
 }
