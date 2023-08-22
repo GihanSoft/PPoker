@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GS.PPoker", "src\GS.PPoker\GS.PPoker.csproj", "{ED18195F-D3B5-4F83-9001-E50870D8314E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{40B463CD-88F9-46F4-8C1C-D1E2DC83024E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -10,5 +14,14 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ED18195F-D3B5-4F83-9001-E50870D8314E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED18195F-D3B5-4F83-9001-E50870D8314E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED18195F-D3B5-4F83-9001-E50870D8314E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED18195F-D3B5-4F83-9001-E50870D8314E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ED18195F-D3B5-4F83-9001-E50870D8314E} = {40B463CD-88F9-46F4-8C1C-D1E2DC83024E}
 	EndGlobalSection
 EndGlobal
