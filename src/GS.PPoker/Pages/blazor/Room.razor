@@ -1,6 +1,107 @@
-﻿@page "/room"
-<h3>Index</h3>
+﻿@page "/room/{id:guid}"
+@implements IDisposable
+
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Mvc.Routing
+
+@using LanguageExt;
+
+@using GS.PPoker.Models
+@using GS.PPoker.Services
+
+@inject RoomService RoomService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+@inject LinkGenerator LinkGenerator
+
+@{
+    var joinLink = LinkGenerator
+    .GetPathByPage("/JoinRoom", values: new { RoomId = RoomId })
+    ?.Apply(NavigationManager.ToAbsoluteUri);
+}
+
+<div id="pg-room">
+    <div id="vote-button-panel">
+        <button onclick="navigator.clipboard.writeText('@joinLink')">کپی کردن
+            لینک دعوت</button>
+        @if (IsOwner)
+        {
+            <button @onclick="OnRevealVotes">نمایش رای‌ها</button>
+            <button @onclick="OnClearVotes">پاک کردن رای‌ها</button>
+        }
+    </div>
+
+    <div id="vote-card-panel">
+        @for (var i = 0; i < _room.PossibleVotes.Count; i++)
+        {
+            var temp = i;
+            <button class="vote-card" @onclick="() => RoomService.TryVote(RoomId, _userId, temp)">
+                @_room.PossibleVotes[i]
+            </button>
+        }
+    </div>
+
+    @foreach (var mem in _room.Members)
+    {
+        <div class='@(mem.Vote is not null ? "room-member voted" : "room-member")'>
+            <div>@mem.Name</div>
+            <div>@mem.Vote?.ToString()</div>
+        </div>
+    }
+</div>
 
 @code {
-    
+    [Parameter]
+    public Guid Id { get; set; } = Guid.Empty;
+    RoomId RoomId => Id;
+
+    UserId _userId = Guid.Empty;
+    ReadOnlyRoom _room = ReadOnlyRoom.Empty;
+
+    bool IsOwner => _userId == _room.OwnerId;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        _userId = await GetUserId();
+
+        RoomService.AddObserver(RoomId, OnChange);
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if (!_room.Members.Any(m => m.UserId == _userId))
+        {
+            var joinLink = LinkGenerator
+            .GetPathByPage("/JoinRoom", values: new { RoomId = RoomId })
+            ?.Apply(NavigationManager.ToAbsoluteUri);
+            NavigationManager.NavigateTo(joinLink?.AbsoluteUri, true);
+        }
+    }
+
+    public void Dispose()
+    {
+        RoomService.RemoveObserver(RoomId, OnChange);
+    }
+
+    private async Task<UserId> GetUserId()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var userIdStr = user.FindFirst("id")?.Value;
+        return Guid.TryParse(userIdStr, out var temp) ? temp : Guid.Empty;
+    }
+
+    private void OnChange(Models.ReadOnlyRoom room)
+    {
+        InvokeAsync(() =>
+        {
+            _room = room;
+            StateHasChanged();
+        });
+    }
+
+    private void OnClearVotes() => RoomService.ClearVotes(_room.Id);
+    private void OnRevealVotes() => RoomService.RevealVotes(_room.Id);
 }

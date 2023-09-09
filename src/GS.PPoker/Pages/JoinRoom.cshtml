@@ -1,2 +1,20 @@
 ﻿@page "/join-room"
 @model GS.PPoker.Pages.JoinRoom
+
+@{
+    ViewData["title"] = "Join";
+}
+
+<div id="pg-join-room">
+    <form method="post">
+        <div>
+            <label asp-for="RoomId"></label>
+            <input asp-for="RoomId" />
+        </div>
+        <div>
+            <label asp-for="Name"></label>
+            <input asp-for="Name" />
+        </div>
+        <button type="submit">پیوستن</button>
+    </form>
+</div>

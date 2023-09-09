@@ -1,6 +1,92 @@
-﻿@import "blazor-error.css";
+﻿@import url("https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn/Vazirmatn-Variable-font-face.css");
+@import url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn/misc/UI/Vazirmatn-UI-font-face.css');
+
+* {
+  box-sizing: border-box;
+}
 
 :root {
-    color-scheme: light dark;
-    direction: rtl;
+  color-scheme: light dark;
+  direction: rtl;
+
+  --font-family: Vazirmatn;
+  font-family: var(--font-family);
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.card {
+  outline: 1.5px solid white;
+  padding: 1.5rem;
+  padding-block-start: 1rem;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 1rem;
+}
+
+.card :first-child {
+  margin: 0;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
+form > button,
+form > input[type="submit"] {
+  align-self: stretch;
+}
+
+input:not([type="range"]):not([type="color"]):not([type="button"]):not(
+    [type="reset"]
+  ):not([type="submit"]):not([type="file"]) {
+  padding: 0.25rem 0.5rem;
+  font-family: var(--font-family);
+  font-size: 1rem;
+}
+
+label {
+  font-size: 1.25rem;
+}
+
+label::after {
+  content: ":";
+}
+
+button {
+  background: transparent;
+  border: thin solid white;
+  border-radius: 2px;
+  font-size: 1rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  font-family: "Vazirmatn UI";
+}
+
+button:hover {
+  background-color: #223;
+}
+
+#pg-doorway,
+#pg-create-room,
+#pg-join-room {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 3rem;
+  justify-content: center;
+  align-content: center;
 }

@@ -4,8 +4,8 @@ namespace GS.PPoker.Pages;
 
 public class Doorway : PageModel
 {
-    public void OnGet()
+    public async Task OnGetAsync()
     {
-        
+        await HttpContext.EnsureSignedInAsync();
     }
 }

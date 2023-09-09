@@ -1,2 +1,24 @@
 ﻿@page "/doorway"
 @model GS.PPoker.Pages.Doorway
+
+@{
+    ViewData["title"] = "Doorway";
+}
+
+<div id="pg-doorway">
+    <div class="card">
+        <h3>ساختن اتاق</h3>
+        <form id="frm-create-room" method="GET" asp-page="CreateRoom">
+            <input name="name" placeholder="نام"/>
+        </form>
+        <button type="submit" form="frm-create-room">ورود</button>
+    </div>
+    <div class="card">
+        <h3>ورود به اتاق</h3>
+        <form id="frm-enter-room" method="POST" asp-page="JoinRoom">
+            <input name="name" placeholder="نام"/>
+            <input name="roomId" placeholder="کد اتاق"/>
+        </form>
+        <button type="submit" form="frm-enter-room">ورود</button>
+    </div>
+</div>

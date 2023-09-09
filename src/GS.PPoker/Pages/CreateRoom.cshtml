@@ -1,4 +1,16 @@
 ﻿@page "/create-room"
 @model GS.PPoker.Pages.CreateRoom
 
-create-room
+@{
+    ViewData["title"] = "Create Room";
+}
+
+<div id="pg-create-room">
+    <form method="post">
+        <div>
+            <label asp-for="Name"></label>
+            <input asp-for="Name" />
+        </div>
+        <button type="submit">ساختن اتاق</button>
+    </form>
+</div>

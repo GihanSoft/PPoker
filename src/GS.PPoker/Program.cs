@@ -1,7 +1,14 @@
+using GS.PPoker.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+
+builder.Services.AddAuthentication()
+    .AddCookie("auth");
+
+builder.Services.AddSingleton<RoomService>();
 
 var app = builder.Build();
 

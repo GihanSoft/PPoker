@@ -1,0 +1,61 @@
+
+#pg-room {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+    gap: 2rem;
+}
+
+#vote-button-panel {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin: 0.5rem;
+}
+
+#vote-card-panel {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 0.5rem;
+}
+
+.vote-card {
+    height: 7rem;
+    width: 5rem;
+    font-size: 3rem;
+    background-color: #334;
+}
+
+#room-member-panel {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 0.5rem;
+}
+
+.room-member {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-content: center;
+    font-size: 1.5rem;
+    height: 4.5rem;
+    width: 12rem;
+    padding-inline-start: 1rem;
+    border: 2px solid white;
+    border-radius: 2px;
+}
+
+.room-member > * {
+    min-width: 4.5rem;
+}
+
+.room-member :last-child {
+    text-align: center;
+}
+
+.voted {
+    border: 2px solid #9F9;
+}
