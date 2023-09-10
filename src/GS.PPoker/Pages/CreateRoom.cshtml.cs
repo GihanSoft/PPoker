@@ -22,6 +22,11 @@ public class CreateRoom : PageModel
     [DisplayName("نام")]
     public string? Name { get; set; }
 
+    [BindProperty]
+    [Required]
+    [DisplayName("رای‌ها")]
+    public string Votes { get; set; } = "0,1,2,3,5,8,13,21,34,55,79";
+
     public async Task OnGetAsync(string? name)
     {
         await HttpContext.EnsureSignedInAsync();
@@ -34,7 +39,7 @@ public class CreateRoom : PageModel
         await HttpContext.EnsureSignedInAsync();
         UserId userId = HttpContext.User.FindFirst("id")?.Value?.Apply(Guid.Parse)
             ?? throw new InvalidOperationException("no 'id' claim found");
-        var votes = Arr.create("0", "1", "2", "3", "5", "8", "13", "21", "33", "54");
+        var votes = Arr.create(Votes.Split(','));
         var roomId = _roomService.CreateRoom(userId, Name, votes);
         return Redirect("/room/" + roomId);
     }
