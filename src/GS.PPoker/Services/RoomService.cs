@@ -42,7 +42,7 @@ public class RoomService
         if (!room.Members.TryGetValue(memberId, out var member)) { return MemberNotFound.Default; }
 
         member.Vote = vote.HasValue
-            ? (vote > 0 && vote < room.PossibleVotes.Count ? room.PossibleVotes[vote.Value] : member.Vote)
+            ? (vote >= 0 && vote < room.PossibleVotes.Count ? room.PossibleVotes[vote.Value] : member.Vote)
             : null;
 
         NotifyObservers(room);
