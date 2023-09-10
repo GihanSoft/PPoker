@@ -5,3 +5,6 @@ yet another scrum programming poker
   - Razor Pages
   - Blazor Server
 - vanilla CSS
+
+## build
+[![build dotnet](https://github.com/GihanSoft/PPoker/actions/workflows/build.yml/badge.svg)](https://github.com/GihanSoft/PPoker/actions/workflows/build.yml)
