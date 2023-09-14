@@ -3,6 +3,8 @@ using GS.PPoker.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddProblemDetails();
+
 builder.Services.Configure<RoomOptions>(builder.Configuration.GetSection(RoomOptions.ConfigSectionKey));
 
 builder.Services.AddRazorPages();
@@ -16,7 +18,8 @@ builder.Services.AddSingleton<RoomService>();
 
 var app = builder.Build();
 
-app.UseExceptionHandler("/error");
+app.UseExceptionHandler();
+app.UseStatusCodePages();
 
 app.UseStaticFiles();
 
@@ -29,6 +32,5 @@ app.MapRazorPages();
 app.MapBlazorHub();
 
 app.MapGet("/", () => Results.LocalRedirect("/doorway"));
-app.MapGet("/error", () => "something went wrong...");
 
 app.Run();
