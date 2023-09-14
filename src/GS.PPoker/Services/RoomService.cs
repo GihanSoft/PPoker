@@ -1,13 +1,32 @@
 using GS.PPoker.Models;
+using GS.PPoker.Options;
 using GS.PPoker.Problems;
 using LanguageExt;
+using Microsoft.Extensions.Options;
 
 namespace GS.PPoker.Services;
 
-public class RoomService
+public class RoomService : IDisposable
 {
+    private readonly IOptionsMonitor<RoomOptions> _roomOptionsMonitor;
+
+    private readonly TimeProvider _timeProvider;
+
+    private readonly PeriodicTimer _timer;
     private readonly Dictionary<RoomId, Room> _rooms = new();
     private readonly Dictionary<RoomId, Action<ReadOnlyRoom>?> _observers = new();
+    private readonly Dictionary<RoomId, DateTime> _lastAccessList = new();
+
+    private bool disposedValue;
+
+    public RoomService(IOptionsMonitor<RoomOptions> roomOptionsMonitor, TimeProvider timeProvider)
+    {
+        _roomOptionsMonitor = roomOptionsMonitor;
+        _timeProvider = timeProvider;
+
+        _timer = new PeriodicTimer(TimeSpan.FromSeconds(10));
+        _ = TimerLoop();
+    }
 
     public RoomId CreateRoom(UserId ownerId, string ownerName, IEnumerable<string> votes)
     {
@@ -15,6 +34,7 @@ public class RoomService
         Room room = new(owner, votes);
         _rooms[room.Id] = room;
         _observers[room.Id] = null;
+        _lastAccessList[room.Id] = _timeProvider.UtcNow.UtcDateTime;
         return room.Id;
     }
 
@@ -92,8 +112,48 @@ public class RoomService
 
     private void NotifyObservers(Room room)
     {
+        _lastAccessList[room.Id] = _timeProvider.UtcNow.UtcDateTime;
         var observerSet = _observers[room.Id];
         ReadOnlyRoom roRoom = room.ToReadOnly(room.AreVotesRevealed);
         observerSet?.GetInvocationList().Iter(x => Task.Run(() => x.DynamicInvoke(roRoom)));
+    }
+
+    private async Task TimerLoop()
+    {
+        while (await _timer.WaitForNextTickAsync())
+        {
+            var idleLife = _roomOptionsMonitor.CurrentValue.IdleLifeSpan;
+            var now = _timeProvider.UtcNow.UtcDateTime;
+            var abandonedRooms = _lastAccessList.Where(p =>
+                (now - p.Value) > idleLife &&
+                _observers[p.Key]?.GetInvocationList().Length is null or 0)
+                .Select(p => p.Key)
+                .ToArray();
+            Array.ForEach(abandonedRooms, r => {
+                _lastAccessList.Remove(r);
+                _observers.Remove(r);
+                _rooms.Remove(r);
+            });
+        }
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposedValue)
+        {
+            if (disposing)
+            {
+                _timer.Dispose();
+            }
+
+            disposedValue = true;
+        }
+    }
+
+    public void Dispose()
+    {
+        // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
     }
 }
