@@ -61,6 +61,8 @@ public class RoomService : IDisposable
 
         if (!room.Members.TryGetValue(memberId, out var member)) { return MemberNotFound.Default; }
 
+        if (room.AreVotesRevealed) { return VotingIsNotAllowedAfterReveal.Default; }
+
         member.Vote = vote.HasValue
             ? (vote >= 0 && vote < room.PossibleVotes.Count ? room.PossibleVotes[vote.Value] : member.Vote)
             : null;
