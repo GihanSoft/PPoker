@@ -1,19 +1,25 @@
 using GS.PPoker.Options;
 using GS.PPoker.Services;
+using Microsoft.AspNetCore.DataProtection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddProblemDetails();
 
-builder.Services.Configure<RoomOptions>(builder.Configuration.GetSection(RoomOptions.ConfigSectionKey));
-
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
+var dataProtectionKeysPath = Path.Combine(
+    builder.Environment.ContentRootPath,
+    "data-protection-keys");
+builder.Services.AddDataProtection()
+    .PersistKeysToFileSystem( new DirectoryInfo(dataProtectionKeysPath));
 builder.Services.AddAuthentication()
     .AddCookie("auth");
 
 builder.Services.AddSingleton(TimeProvider.System);
+
+builder.Services.Configure<RoomOptions>(builder.Configuration.GetSection(RoomOptions.ConfigSectionKey));
 builder.Services.AddSingleton<RoomService>();
 
 var app = builder.Build();

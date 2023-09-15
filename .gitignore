@@ -478,3 +478,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# data-protection-keys
+src/GS.PPoker/data-protection-keys
