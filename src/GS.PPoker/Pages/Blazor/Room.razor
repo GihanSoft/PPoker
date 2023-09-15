@@ -14,15 +14,9 @@
 @inject NavigationManager NavigationManager
 @inject LinkGenerator LinkGenerator
 
-@{
-    var joinLink = LinkGenerator
-    .GetPathByPage("/JoinRoom", values: new { RoomId = RoomId })
-    ?.Apply(NavigationManager.ToAbsoluteUri);
-}
-
 <div id="pg-room">
     <div id="vote-button-panel">
-        <button onclick="navigator.clipboard.writeText('@joinLink')">کپی کردن
+        <button onclick="navigator.clipboard.writeText('@JoinLink')">کپی کردن
             لینک دعوت</button>
         @if (IsOwner)
         {
@@ -54,6 +48,7 @@
     [Parameter]
     public Guid Id { get; set; } = Guid.Empty;
     RoomId RoomId => Id;
+    string JoinLink => NavigationManager.BaseUri + $"join-room?roomId={RoomId}";
 
     UserId _userId = Guid.Empty;
     ReadOnlyRoom _room = ReadOnlyRoom.Empty;
@@ -73,10 +68,7 @@
         base.OnAfterRender(firstRender);
         if (!_room.Members.Any(m => m.UserId == _userId))
         {
-            var joinLink = LinkGenerator
-            .GetPathByPage("/JoinRoom", values: new { RoomId = RoomId })
-            ?.Apply(NavigationManager.ToAbsoluteUri);
-            NavigationManager.NavigateTo(joinLink?.AbsoluteUri, true);
+            NavigationManager.NavigateTo(JoinLink, true);
         }
     }
 

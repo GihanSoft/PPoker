@@ -41,6 +41,6 @@ public class CreateRoom : PageModel
             ?? throw new InvalidOperationException("no 'id' claim found");
         var votes = Arr.create(Votes.Split(','));
         var roomId = _roomService.CreateRoom(userId, Name, votes);
-        return Redirect("/room/" + roomId);
+        return LocalRedirect("~/room/" + roomId);
     }
 }

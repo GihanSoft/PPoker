@@ -43,6 +43,6 @@ public class JoinRoom : PageModel
             ?? throw new InvalidOperationException("no 'id' claim found");
 
         _roomService.JoinRoom(RoomId.Value, userId, Name);
-        return Redirect("/room/" + RoomId);
+        return LocalRedirect("~/room/" + RoomId);
     }
 }

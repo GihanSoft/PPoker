@@ -31,6 +31,6 @@ app.UseAuthorization();
 app.MapRazorPages();
 app.MapBlazorHub();
 
-app.MapGet("/", () => Results.LocalRedirect("/doorway"));
+app.MapGet("/", () => Results.LocalRedirect("~/doorway"));
 
 app.Run();
