@@ -25,12 +25,16 @@ public class CreateRoom : PageModel
     [BindProperty]
     [Required]
     [DisplayName("رای‌ها")]
-    public string Votes { get; set; } = "0,1,2,3,5,8,13,21,34,55,79";
+    public string Votes { get; set; }
 
-    public async Task OnGetAsync(string? name)
+    public async Task OnGetAsync(string? name, string? votes)
     {
         await HttpContext.EnsureSignedInAsync();
         Name = name;
+        if (votes is not null)
+        {
+            Votes = votes;
+        }
     }
 
     public async Task<IActionResult> OnPostAsync()
