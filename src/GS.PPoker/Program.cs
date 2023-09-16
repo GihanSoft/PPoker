@@ -1,5 +1,6 @@
 using GS.PPoker.Options;
 using GS.PPoker.Services;
+
 using Microsoft.AspNetCore.DataProtection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,7 +14,7 @@ var dataProtectionKeysPath = Path.Combine(
     builder.Environment.ContentRootPath,
     "data-protection-keys");
 builder.Services.AddDataProtection()
-    .PersistKeysToFileSystem( new DirectoryInfo(dataProtectionKeysPath));
+    .PersistKeysToFileSystem(new DirectoryInfo(dataProtectionKeysPath));
 builder.Services.AddAuthentication()
     .AddCookie("auth");
 

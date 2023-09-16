@@ -1,0 +1,5 @@
+
+# Sort using and Import directives with System.* appearing first
+[*.{cs,vb}]
+dotnet_separate_import_directive_groups = true
+dotnet_sort_system_directives_first = true

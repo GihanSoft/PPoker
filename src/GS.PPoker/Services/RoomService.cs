@@ -1,7 +1,9 @@
 using GS.PPoker.Models;
 using GS.PPoker.Options;
 using GS.PPoker.Problems;
+
 using LanguageExt;
+
 using Microsoft.Extensions.Options;
 
 namespace GS.PPoker.Services;
@@ -131,7 +133,8 @@ public class RoomService : IDisposable
                 _observers[p.Key]?.GetInvocationList().Length is null or 0)
                 .Select(p => p.Key)
                 .ToArray();
-            Array.ForEach(abandonedRooms, r => {
+            Array.ForEach(abandonedRooms, r =>
+            {
                 _lastAccessList.Remove(r);
                 _observers.Remove(r);
                 _rooms.Remove(r);
