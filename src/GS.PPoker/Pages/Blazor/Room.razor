@@ -102,6 +102,11 @@
     {
         InvokeAsync(() =>
         {
+            if (_room.AreVotesRevealed && !room.AreVotesRevealed)
+            {
+                _myVote = null;
+            }
+
             _room = room;
             StateHasChanged();
         });
