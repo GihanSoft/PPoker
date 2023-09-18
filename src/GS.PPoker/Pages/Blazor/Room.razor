@@ -1,4 +1,4 @@
-@page "/room/{id:guid}"
+﻿@page "/room/{id:guid}"
 @implements IDisposable
 
 @using Microsoft.AspNetCore.Components.Authorization
@@ -36,14 +36,14 @@
     </div>
 
     <div id="member-panel">
-    @foreach (var mem in _room.Members)
-    {
-        <div class='@(mem.Vote is not null ? "room-member voted" : "room-member")'>
-            <div>@mem.Name</div>
-            <div>@mem.Vote?.ToString()</div>
-        </div>
-    }
-</div>
+        @foreach (var mem in _room.Members)
+        {
+            <div class='@(mem.Vote is not null ? "room-member voted" : "room-member")'>
+                <div>@mem.Name</div>
+                <div>@mem.Vote?.ToString()</div>
+            </div>
+        }
+    </div>
 </div>
 
 @code {
@@ -102,7 +102,12 @@
     private void OnRevealVotes() => RoomService.RevealVotes(_room.Id);
     private void OnVote(int i)
     {
+        var preMyVote = _myVote;
         _myVote = (_myVote.HasValue && i == _myVote) ? null : i;
-        RoomService.TryVote(RoomId, _userId, _myVote);
+        var result = RoomService.TryVote(RoomId, _userId, _myVote);
+        if (!result.IsRight)
+        {
+            _myVote = preMyVote;
+        }
     }
 }
