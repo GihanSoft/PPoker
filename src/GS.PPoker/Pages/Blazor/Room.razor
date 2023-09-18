@@ -16,8 +16,17 @@
 
 <div id="pg-room">
     <div id="vote-button-panel">
-        <button onclick="navigator.clipboard.writeText('@JoinLink')">کپی کردن
-            لینک دعوت</button>
+        @if (NavigationManager.BaseUri.StartsWith("https", StringComparison.OrdinalIgnoreCase))
+        {
+            <button onclick="navigator.clipboard.writeText('@JoinLink')">
+                کپی کردن لینک دعوت
+            </button>
+        }
+        else
+        {
+            <a href="@JoinLink">لینک دعوت</a>
+        }
+
         @if (IsOwner)
         {
             <button @onclick="OnRevealVotes">نمایش رای‌ها</button>
