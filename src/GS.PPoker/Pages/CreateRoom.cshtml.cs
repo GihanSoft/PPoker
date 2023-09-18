@@ -28,7 +28,7 @@ public class CreateRoom : PageModel
     [BindProperty]
     [Required]
     [DisplayName("رای‌ها")]
-    public string Votes { get; set; }
+    public string? Votes { get; set; }
 
     public async Task OnGetAsync(string? name, string? votes)
     {
@@ -42,7 +42,7 @@ public class CreateRoom : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        if (Name is null) return RedirectToPage();
+        if (Name is null || Votes is null) return RedirectToPage();
         await HttpContext.EnsureSignedInAsync();
         UserId userId = HttpContext.User.FindFirst("id")?.Value?.Apply(Guid.Parse)
             ?? throw new InvalidOperationException("no 'id' claim found");
