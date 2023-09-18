@@ -29,7 +29,7 @@
         @for (var i = 0; i < _room.PossibleVotes.Count; i++)
         {
             var temp = i;
-            <button class="vote-card" @onclick="() => RoomService.TryVote(RoomId, _userId, temp)">
+            <button class='@(_myVote == i ? "my-vote" : "")' @onclick="() => OnVote(temp)">
                 @_room.PossibleVotes[i]
             </button>
         }
@@ -52,6 +52,8 @@
 
     UserId _userId = Guid.Empty;
     ReadOnlyRoom _room = ReadOnlyRoom.Empty;
+
+    int? _myVote;
 
     bool IsOwner => _userId == _room.OwnerId;
 
@@ -96,4 +98,9 @@
 
     private void OnClearVotes() => RoomService.ClearVotes(_room.Id);
     private void OnRevealVotes() => RoomService.RevealVotes(_room.Id);
+    private void OnVote(int i)
+    {
+        _myVote = (_myVote.HasValue && i == _myVote) ? null : i;
+        RoomService.TryVote(RoomId, _userId, _myVote);
+    }
 }
