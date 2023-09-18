@@ -48,8 +48,8 @@
         @foreach (var mem in _room.Members)
         {
             <div class='@(mem.Vote is not null ? "room-member voted" : "room-member")'>
-                <div>@mem.Name</div>
-                <div>@mem.Vote?.ToString()</div>
+                <div class="member-name">@mem.Name</div>
+                <div class="member-vote">@mem.Vote?.ToString()</div>
             </div>
         }
     </div>

@@ -55,7 +55,13 @@
   min-width: 4.5rem;
 }
 
-.room-member :last-child {
+.room-member > .member-name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.room-member > .member-vote {
   text-align: center;
 }
 
