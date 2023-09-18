@@ -27,8 +27,8 @@
   background-color: #334;
 }
 
-.my-vote{
-    outline: royalblue solid 2px;
+.my-vote {
+  outline: royalblue solid 2px;
 }
 
 #room-member-panel {
@@ -61,4 +61,9 @@
 
 .voted {
   border: 2px solid #9f9;
+}
+
+#member-panel {
+  display: flex;
+  flex-wrap: wrap;
 }

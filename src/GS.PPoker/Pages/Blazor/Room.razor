@@ -1,4 +1,4 @@
-﻿@page "/room/{id:guid}"
+@page "/room/{id:guid}"
 @implements IDisposable
 
 @using Microsoft.AspNetCore.Components.Authorization
@@ -35,6 +35,7 @@
         }
     </div>
 
+    <div id="member-panel">
     @foreach (var mem in _room.Members)
     {
         <div class='@(mem.Vote is not null ? "room-member voted" : "room-member")'>
@@ -42,6 +43,7 @@
             <div>@mem.Vote?.ToString()</div>
         </div>
     }
+</div>
 </div>
 
 @code {
