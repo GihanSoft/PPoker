@@ -15,5 +15,6 @@ internal static class HttpContextExtensions
         ClaimsPrincipal principal = new(identity);
 
         await ctx.SignInAsync("auth", principal);
+        ctx.User = principal;
     }
 }
