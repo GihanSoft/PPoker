@@ -118,7 +118,7 @@
     {
         var preMyVote = _myVote;
         _myVote = (_myVote.HasValue && i == _myVote) ? null : i;
-        var result = RoomService.TryVote(RoomId, _userId, _myVote);
+        var result = RoomService.Vote(RoomId, _userId, _myVote);
         if (!result.IsRight)
         {
             _myVote = preMyVote;

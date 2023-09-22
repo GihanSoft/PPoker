@@ -57,7 +57,7 @@ public class RoomService : IDisposable
         return Unit.Default;
     }
 
-    public Either<IProblem, Unit> TryVote(RoomId roomId, UserId memberId, int? vote)
+    public Either<IProblem, Unit> Vote(RoomId roomId, UserId memberId, int? vote)
     {
         if (!_rooms.TryGetValue(roomId, out var room)) { return RoomNotFound.Default; }
 
