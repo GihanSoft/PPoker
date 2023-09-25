@@ -16,7 +16,11 @@ var dataProtectionKeysPath = Path.Combine(
 builder.Services.AddDataProtection()
     .PersistKeysToFileSystem(new DirectoryInfo(dataProtectionKeysPath));
 builder.Services.AddAuthentication()
-    .AddCookie("auth");
+    .AddCookie("auth", opt =>
+    {
+        opt.ExpireTimeSpan = TimeSpan.FromHours(6);
+        opt.SlidingExpiration = true;
+    });
 
 builder.Services.AddSingleton(TimeProvider.System);
 
