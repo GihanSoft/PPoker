@@ -11,13 +11,13 @@ namespace GS.PPoker.Services;
 public class RoomService : IDisposable
 {
     private readonly IOptionsMonitor<RoomOptions> _roomOptionsMonitor;
-
     private readonly TimeProvider _timeProvider;
 
     private readonly PeriodicTimer _timer;
+    private readonly Dictionary<RoomId, DateTime> _lastAccessList = new();
+
     private readonly Dictionary<RoomId, Room> _rooms = new();
     private readonly Dictionary<RoomId, Action<ReadOnlyRoom>?> _observers = new();
-    private readonly Dictionary<RoomId, DateTime> _lastAccessList = new();
 
     private bool disposedValue;
 
