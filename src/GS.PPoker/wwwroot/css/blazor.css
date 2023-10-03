@@ -3,6 +3,7 @@
   flex-direction: column;
   padding: 0.5rem;
   gap: 2rem;
+  flex-grow: 1;
 }
 
 #vote-button-panel {

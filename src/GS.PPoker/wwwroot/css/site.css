@@ -1,5 +1,5 @@
 ﻿@import url("https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn/Vazirmatn-Variable-font-face.css");
-@import url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn/misc/UI/Vazirmatn-UI-font-face.css');
+@import url("https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn/misc/UI/Vazirmatn-UI-font-face.css");
 
 * {
   box-sizing: border-box;
@@ -22,6 +22,17 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
+}
+
+footer {
+  padding-inline: 2rem;
+  padding-block: 0.5rem;
+  font-size: 1.2rem;
+}
+
+footer > a {
+  text-decoration: none;
+
 }
 
 .card {

@@ -1,4 +1,4 @@
-@* @page "/room" *@
+﻿@* @page "/room" *@
 @page "/room/{id:guid}"
 @{
     Layout = null;
@@ -7,6 +7,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,23 +15,28 @@
     <link href="css/site.css" rel="stylesheet" asp-append-version="true" />
     <link href="css/blazor-error.css" rel="stylesheet" asp-append-version="true" />
     <link href="css/blazor.css" rel="stylesheet" asp-append-version="true" />
-    
+
     @* <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" /> *@
 </head>
+
 <body>
-<component type="typeof(App)" render-mode="ServerPrerendered" />
+    <component type="typeof(App)" render-mode="ServerPrerendered" />
 
-<div id="blazor-error-ui">
-    <environment include="Staging,Production">
-        An error has occurred. This application may no longer respond until reloaded.
-    </environment>
-    <environment include="Development">
-        An unhandled exception has occurred. See browser dev tools for details.
-    </environment>
-    <a href="" class="reload">Reload</a>
-    <a class="dismiss">🗙</a>
-</div>
+    <div id="blazor-error-ui">
+        <environment include="Staging,Production">
+            An error has occurred. This application may no longer respond until reloaded.
+        </environment>
+        <environment include="Development">
+            An unhandled exception has occurred. See browser dev tools for details.
+        </environment>
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
 
-<script src="_framework/blazor.server.js"></script>
+    <footer>
+        <a href="https://github.com/GihanSoft/PPoker" target="_blank">github</a>
+    </footer>
+    <script src="_framework/blazor.server.js"></script>
 </body>
+
 </html>
