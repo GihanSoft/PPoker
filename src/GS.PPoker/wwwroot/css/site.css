@@ -6,10 +6,8 @@
     box-sizing: border-box;
 }
 
-
-
 :root {
-    color-scheme: dark;
+    color-scheme: light;
     direction: rtl;
     --primary-color: #1ebdb4;
     --secondary-color: #FFF;
@@ -18,9 +16,6 @@
     --card-color: #fff;
     font-family: Vazirmatn;
 }
-
-
-
 
 html {
     height: 100%;

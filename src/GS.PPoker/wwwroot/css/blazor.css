@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 @import url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css');
 
 :root {
@@ -107,9 +106,7 @@
     .room-member > * {
     }
 
-    .room-member > .member-name {
-       
-    }
+    
 
     .room-member > .member-vote {
         text-align: center;
