@@ -6,15 +6,20 @@
 }
 
 <div id="pg-create-room">
-    <form method="post">
-        <div>
-            <label asp-for="Name"></label>
-            <input asp-for="Name" />
+    <div>
+        <div class="card">
+            <h3>ساختن اتاق</h3>
+            <form method="post">
+                <div>
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" />
+                </div>
+                <div>
+                    <label asp-for="Votes"></label>
+                    <input asp-for="Votes" />
+                </div>
+                <button type="submit">ساختن اتاق</button>
+            </form>
         </div>
-        <div>
-            <label asp-for="Votes"></label>
-            <input asp-for="Votes" />
-        </div>
-        <button type="submit">ساختن اتاق</button>
-    </form>
+    </div>
 </div>

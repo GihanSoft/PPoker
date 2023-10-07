@@ -6,15 +6,20 @@
 }
 
 <div id="pg-join-room">
-    <form method="post">
-        <div>
-            <label asp-for="RoomId"></label>
-            <input asp-for="RoomId" />
+    <div >
+        <div class="card">
+            <h3>ورود به اتاق</h3>
+            <form method="post">
+                <div>
+                    <label asp-for="RoomId"></label>
+                    <input asp-for="RoomId" />
+                </div>
+                <div>
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" />
+                </div>
+                <button type="submit">پیوستن</button>
+            </form>
         </div>
-        <div>
-            <label asp-for="Name"></label>
-            <input asp-for="Name" />
-        </div>
-        <button type="submit">پیوستن</button>
-    </form>
+    </div>
 </div>

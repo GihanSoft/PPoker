@@ -15,43 +15,47 @@
 @inject LinkGenerator LinkGenerator
 
 <div id="pg-room">
-    <div id="vote-button-panel">
-        @if (NavigationManager.BaseUri.StartsWith("https", StringComparison.OrdinalIgnoreCase))
-        {
-            <button onclick="navigator.clipboard.writeText('@JoinLink')">
-                کپی کردن لینک دعوت
-            </button>
-        }
-        else
-        {
-            <a href="@JoinLink">لینک دعوت</a>
-        }
+    <div id="room-container">
+        <div id="vote-button-panel">
+            @if (NavigationManager.BaseUri.StartsWith("https", StringComparison.OrdinalIgnoreCase))
+            {
+                <button class="referal-link" onclick="navigator.clipboard.writeText('@JoinLink')">
+                    کپی کردن لینک دعوت
+                </button>
+            }
+            else
+            {
+                <button class="referal-link">
+                    <a href="@JoinLink">لینک دعوت</a>
+                </button>
+            }
 
-        @if (IsOwner)
-        {
-            <button @onclick="OnRevealVotes">نمایش رای‌ها</button>
-            <button @onclick="OnClearVotes">پاک کردن رای‌ها</button>
-        }
-    </div>
+            @if (IsOwner)
+            {
+                <button @onclick="OnRevealVotes" class="admin-button">نمایش رای‌ها</button>
+                <button @onclick="OnClearVotes" class="admin-button">پاک کردن رای‌ها</button>
+            }
+        </div>
 
-    <div id="vote-card-panel">
-        @for (var i = 0; i < _room.PossibleVotes.Count; i++)
-        {
-            var temp = i;
-            <button class='@(_myVote == i ? "my-vote" : "")' @onclick="() => OnVote(temp)">
-                @_room.PossibleVotes[i]
-            </button>
-        }
-    </div>
+        <div id="vote-card-panel">
+            @for (var i = 0; i < _room.PossibleVotes.Count; i++)
+            {
+                var temp = i;
+                <button class='@(_myVote == i ? "my-vote" : "")' @onclick="() => OnVote(temp)">
+                    @_room.PossibleVotes[i]
+                </button>
+            }
+        </div>
 
-    <div id="member-panel">
-        @foreach (var mem in _room.Members)
-        {
-            <div class='@(mem.Vote is not null ? "room-member voted" : "room-member")'>
-                <div class="member-name">@mem.Name</div>
-                <div class="member-vote">@mem.Vote?.ToString()</div>
-            </div>
-        }
+        <div id="member-panel">
+            @foreach (var mem in _room.Members)
+            {
+                <div class='@(mem.Vote is not null ? "room-member voted" : "room-member")'>
+                    <div class="member-name">@mem.Name</div>
+                    <div class="member-vote">@mem.Vote?.ToString()</div>
+                </div>
+            }
+        </div>
     </div>
 </div>
 
