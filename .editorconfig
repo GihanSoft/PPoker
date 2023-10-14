@@ -1,3 +1,11 @@
+# indentaion
+[*.{css,js,html}]
+indent_style = space
+indent_size = 2
+
+[*.{cs}]
+indent_style = space
+indent_size = 4
 
 # Sort using and Import directives with System.* appearing first
 [*.{cs,vb}]
