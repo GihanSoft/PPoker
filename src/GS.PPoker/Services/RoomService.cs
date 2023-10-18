@@ -69,6 +69,11 @@ public class RoomService : IDisposable
             ? (vote >= 0 && vote < room.PossibleVotes.Count ? room.PossibleVotes[vote.Value] : member.Vote)
             : null;
 
+        room.AverageOfVotes = room.Members.Values
+            .Select(m => Prelude.parseInt(m.Vote).ToNullable())
+            .OfType<int>()
+            .Average();
+
         NotifyObservers(room);
         return Unit.Default;
     }

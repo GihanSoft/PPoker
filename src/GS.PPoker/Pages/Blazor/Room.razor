@@ -37,6 +37,16 @@
             }
         </div>
 
+        <div id="data-panel">
+            @if (!double.IsNaN(_room.AverageOfVotes))
+            {
+                <div class="data-item">
+                    <span>میانگین رای‌ها:</span>
+                    <span>@_room.AverageOfVotes.ToString("#.#")</span>
+                </div>
+            }
+        </div>
+
         <div id="vote-card-panel">
             @for (var i = 0; i < _room.PossibleVotes.Count; i++)
             {

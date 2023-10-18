@@ -24,6 +24,8 @@ public class Room
     private readonly Dictionary<UserId, RoomMember> _members;
     public IReadOnlyDictionary<UserId, RoomMember> Members => _members.AsReadOnly();
 
+    public double AverageOfVotes { get; internal set; }
+
     public void Join(RoomMember member) => _members[member.UserId] = member;
     public void Join(UserId userId, string name) => _members[userId] = new RoomMember(userId, name);
     public bool TryRemove(UserId userId) => _members.Remove(userId);
@@ -36,6 +38,7 @@ public static class RoomExtensions
         room.OwnerId,
         room.AreVotesRevealed,
         room.Members.Values.Select(m => m.ToReadOnlyRoomMember(revealVotes)).ToArr(),
+        revealVotes ? room.AverageOfVotes : double.NaN,
         room.PossibleVotes);
 }
 
@@ -44,8 +47,9 @@ public record ReadOnlyRoom(
     UserId OwnerId,
     bool AreVotesRevealed,
     Arr<ReadOnlyRoomMember> Members,
+    double AverageOfVotes,
     Arr<string> PossibleVotes)
 {
     public static ReadOnlyRoom Empty { get; }
-        = new(Guid.Empty, Guid.Empty, false, Arr.empty<ReadOnlyRoomMember>(), Arr.empty<string>());
+        = new(Guid.Empty, Guid.Empty, false, Arr.empty<ReadOnlyRoomMember>(), double.NaN, Arr.empty<string>());
 }
