@@ -116,7 +116,8 @@
     {
         InvokeAsync(() =>
         {
-            if (_room.AreVotesRevealed && !room.AreVotesRevealed)
+            var me = room.Members.FirstOrDefault(x => x.UserId == _userId);
+            if (me?.Vote is null)
             {
                 _myVote = null;
             }
