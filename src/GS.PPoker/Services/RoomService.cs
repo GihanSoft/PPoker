@@ -82,9 +82,7 @@ public class RoomService : IDisposable
     {
         if (!_rooms.TryGetValue(roomId, out var room)) { return RoomNotFound.Default; }
 
-        room.Members.Values.Iter(member => member.Vote = null);
-        room.AreVotesRevealed = false;
-
+        room.Clear();
         NotifyObservers(room);
         return Unit.Default;
     }
