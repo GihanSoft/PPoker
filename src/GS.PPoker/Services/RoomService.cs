@@ -70,9 +70,9 @@ public class RoomService : IDisposable
             : null;
 
         room.AverageOfVotes = room.Members.Values
+            .ToSeq()
             .Select(m => Prelude.parseInt(m.Vote).ToNullable())
-            .OfType<int>()
-            .Average();
+            .Average() ?? 0.0;
 
         NotifyObservers(room);
         return Unit.Default;
