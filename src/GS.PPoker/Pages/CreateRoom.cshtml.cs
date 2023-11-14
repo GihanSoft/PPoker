@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 using GS.PPoker.Models;
@@ -34,7 +34,7 @@ public class CreateRoom : PageModel
     {
         await HttpContext.EnsureSignedInAsync();
         Name = name;
-        Votes = votes ?? RoomService.DefaultVotes;
+        Votes = votes ?? _roomService.DefaultVotes;
     }
 
     public async Task<IActionResult> OnPostAsync()

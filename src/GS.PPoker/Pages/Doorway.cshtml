@@ -1,4 +1,4 @@
-﻿@page "/doorway"
+@page "/doorway"
 @model GS.PPoker.Pages.Doorway
 
 @{
@@ -10,7 +10,7 @@
         <h3>ساختن اتاق</h3>
         <form id="frm-create-room" method="GET" asp-page="CreateRoom">
             <input name="name" placeholder="نام"/>
-            <input name="votes" value="@Services.RoomService.DefaultVotes" />
+            <input name="votes" value="@Model.Votes" />
         </form>
         <button type="submit" form="frm-create-room">ورود</button>
     </div>

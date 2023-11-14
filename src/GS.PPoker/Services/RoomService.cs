@@ -10,7 +10,6 @@ namespace GS.PPoker.Services;
 
 public class RoomService : IDisposable
 {
-    public const string DefaultVotes = "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,18,20,22,24,26,28,30,32,34,36,38,40,44,48,52,56,60,64,68,72,80,88,96,104,112,♾";
     private readonly IOptionsMonitor<RoomOptions> _roomOptionsMonitor;
     private readonly TimeProvider _timeProvider;
 
@@ -30,6 +29,8 @@ public class RoomService : IDisposable
         _timer = new PeriodicTimer(TimeSpan.FromSeconds(10));
         _ = TimerLoop();
     }
+
+    public string? DefaultVotes => _roomOptionsMonitor.CurrentValue.DefaultVotes;
 
     public RoomId CreateRoom(UserId ownerId, string ownerName, IEnumerable<string> votes)
     {
