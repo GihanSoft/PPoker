@@ -34,10 +34,7 @@ public class CreateRoom : PageModel
     {
         await HttpContext.EnsureSignedInAsync();
         Name = name;
-        if (votes is not null)
-        {
-            Votes = votes;
-        }
+        Votes = votes ?? RoomService.DefaultVotes;
     }
 
     public async Task<IActionResult> OnPostAsync()

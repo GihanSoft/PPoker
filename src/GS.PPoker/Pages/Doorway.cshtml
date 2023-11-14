@@ -10,7 +10,7 @@
         <h3>ساختن اتاق</h3>
         <form id="frm-create-room" method="GET" asp-page="CreateRoom">
             <input name="name" placeholder="نام"/>
-            <input name="votes" value="0,1,2,3,5,8,13,21,34,55,79" />
+            <input name="votes" value="@Services.RoomService.DefaultVotes" />
         </form>
         <button type="submit" form="frm-create-room">ورود</button>
     </div>
