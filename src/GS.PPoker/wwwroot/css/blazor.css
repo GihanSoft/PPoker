@@ -96,7 +96,7 @@
   border: var(--primary-color) solid 2px;
 }
 
-.referal-link {
+.referral-link {
   background: linear-gradient(
     45deg,
     var(--secondary-color) 0%,
@@ -143,11 +143,11 @@
   color: var(--primary-color) !important;
   border: solid 2px var(--primary-color);
 }
-.referal-link:hover {
+.referral-link:hover {
   background-color: var(--secondary-color);
 }
 
-.referal-link > a {
+.referral-link > a {
   text-decoration: none;
   color: var(--primary-color) !important;
 }

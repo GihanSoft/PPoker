@@ -19,13 +19,13 @@
         <div id="vote-button-panel">
             @if (NavigationManager.BaseUri.StartsWith("https", StringComparison.OrdinalIgnoreCase))
             {
-                <button class="referal-link" onclick="navigator.clipboard.writeText('@JoinLink')">
+                <button class="referral-link" onclick="navigator.clipboard.writeText('@JoinLink')">
                     کپی کردن لینک دعوت
                 </button>
             }
             else
             {
-                <button class="referal-link">
+                <button class="referral-link">
                     <a href="@JoinLink">لینک دعوت</a>
                 </button>
             }
