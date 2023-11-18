@@ -1,0 +1,62 @@
+﻿@page "/create-room"
+@rendermode InteractiveServer
+
+@inject RoomService RoomService
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<PageTitle>Create Room - PPoker</PageTitle>
+
+<div id="pg-create-room">
+    <div class="card">
+        <h3>ساختن اتاق</h3>
+        <EditForm Model="_model" OnValidSubmit="OnValidSubmitAsync">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <div>
+                <label>نام</label>
+                <InputText @bind-Value="_model.Name" class="on-nav-focus-catcher" dir="auto" />
+                <ValidationMessage For="() => _model.Name" />
+            </div>
+            <div>
+                <label>رای‌ها</label>
+                <InputText @bind-Value="_model.PossibleVotes" dir="auto" />
+                <ValidationMessage For="() => _model.PossibleVotes" />
+            </div>
+            <button type="submit">ساختن اتاق</button>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    public string? Name { get; set; } = "";
+
+    [SupplyParameterFromQuery(Name = "votes")]
+    public string? PossibleVotes { get; set; } = "";
+
+    Model _model = new();
+
+    protected override void OnInitialized()
+    {
+        _model.Name = Name ?? "";
+        _model.PossibleVotes = PossibleVotes ??= RoomService.DefaultVotes ?? "";
+    }
+
+    private async Task OnValidSubmitAsync()
+    {
+        var userId = await AuthenticationStateProvider.GetUserIdAsync();
+        var votes = Arr.create(_model.PossibleVotes.Split(','));
+        var roomId = RoomService.CreateRoom(userId, _model.Name, votes);
+        NavigationManager.NavigateTo("/room/" + roomId);
+    }
+
+    class Model
+    {
+        [Required(ErrorMessage = "پر کردن فیلد نام الزامی است")]
+        public string Name { get; set; } = "";
+
+        [Required(ErrorMessage = "پر کردن فیلد رای‌ها الزامی است")]
+        public string PossibleVotes { get; set; } = "";
+    }
+}

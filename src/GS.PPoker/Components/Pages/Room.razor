@@ -3,9 +3,6 @@
 
 @implements IDisposable
 
-@using Microsoft.AspNetCore.Components.Authorization
-@using Microsoft.AspNetCore.Mvc.Routing
-
 @using LanguageExt;
 
 @using GS.PPoker.Models
@@ -84,8 +81,7 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        _userId = await GetUserId();
-
+        _userId = await AuthenticationStateProvider.GetUserIdAsync();
         RoomService.AddObserver(RoomId, OnChange);
     }
 
@@ -101,14 +97,6 @@
     public void Dispose()
     {
         RoomService.RemoveObserver(RoomId, OnChange);
-    }
-
-    private async Task<UserId> GetUserId()
-    {
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-        var userIdStr = user.FindFirst("id")?.Value;
-        return Guid.TryParse(userIdStr, out var temp) ? temp : Guid.Empty;
     }
 
     private void OnChange(Models.ReadOnlyRoom room)

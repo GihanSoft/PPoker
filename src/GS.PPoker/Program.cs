@@ -1,4 +1,5 @@
 using GS.PPoker.Components;
+using GS.PPoker.Middleware;
 using GS.PPoker.Options;
 using GS.PPoker.Services;
 
@@ -44,6 +45,8 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<AutoAuthenticateMiddleware>();
 
 app.UseAntiforgery();
 

@@ -32,114 +32,32 @@
   margin: 0.5rem;
 }
 
-#vote-card-panel > button {
-  height: 7rem;
-  width: 5rem;
-  font-size: 2.4rem;
-  color: var(--primary-color);
-  background: linear-gradient(
-    45deg,
-    var(--secondary-color) 0%,
-    var(--secondary-color) 5%,
-    transparent 5%,
-    transparent 10%,
-    var(--secondary-color) 10%,
-    var(--secondary-color) 15%,
-    transparent 15%,
-    transparent 20%,
-    var(--secondary-color) 20%,
-    var(--secondary-color) 25%,
-    transparent 25%,
-    transparent 30%,
-    var(--secondary-color) 30%,
-    var(--secondary-color) 35%,
-    transparent 35%,
-    transparent 40%,
-    var(--secondary-color) 40%,
-    var(--secondary-color) 45%,
-    transparent 45%,
-    transparent 50%,
-    var(--secondary-color) 50%,
-    var(--secondary-color) 55%,
-    transparent 55%,
-    transparent 60%,
-    var(--secondary-color) 60%,
-    var(--secondary-color) 65%,
-    transparent 65%,
-    transparent 70%,
-    var(--secondary-color) 70%,
-    var(--secondary-color) 75%,
-    transparent 70%,
-    transparent 80%,
-    var(--secondary-color) 80%,
-    var(--secondary-color) 85%,
-    transparent 85%,
-    transparent 90%,
-    var(--secondary-color) 90%,
-    var(--secondary-color) 95%,
-    transparent 95%
-  );
-  background-size: 3em 3em;
-  background-color: var(--background-color);
-  border-radius: 16px;
-  box-shadow: var(--shadow-color) 0px 1px 0px, var(--shadow-color) 0px 4px 12px,
-    var(--shadow-color) 0px 8px 24px;
-}
+  #vote-card-panel > button {
+    height: 7rem;
+    width: 5rem;
+    font-size: 2.4rem;
+    color: var(--primary-color);
+    background: linear-gradient( 45deg, var(--secondary-color) 0%, var(--secondary-color) 5%, transparent 5%, transparent 10%, var(--secondary-color) 10%, var(--secondary-color) 15%, transparent 15%, transparent 20%, var(--secondary-color) 20%, var(--secondary-color) 25%, transparent 25%, transparent 30%, var(--secondary-color) 30%, var(--secondary-color) 35%, transparent 35%, transparent 40%, var(--secondary-color) 40%, var(--secondary-color) 45%, transparent 45%, transparent 50%, var(--secondary-color) 50%, var(--secondary-color) 55%, transparent 55%, transparent 60%, var(--secondary-color) 60%, var(--secondary-color) 65%, transparent 65%, transparent 70%, var(--secondary-color) 70%, var(--secondary-color) 75%, transparent 70%, transparent 80%, var(--secondary-color) 80%, var(--secondary-color) 85%, transparent 85%, transparent 90%, var(--secondary-color) 90%, var(--secondary-color) 95%, transparent 95% );
+    background-size: 3em 3em;
+    background-color: var(--background-color);
+    border-radius: 16px;
+    box-shadow: var(--shadow-color) 0px 1px 0px, var(--shadow-color) 0px 4px 12px, var(--shadow-color) 0px 8px 24px;
+  }
 
 .my-vote {
   border: var(--primary-color) solid 2px;
 }
 
 .referral-link {
-  background: linear-gradient(
-    45deg,
-    var(--secondary-color) 0%,
-    var(--secondary-color) 5%,
-    transparent 5%,
-    transparent 10%,
-    var(--secondary-color) 10%,
-    var(--secondary-color) 15%,
-    transparent 15%,
-    transparent 20%,
-    var(--secondary-color) 20%,
-    var(--secondary-color) 25%,
-    transparent 25%,
-    transparent 30%,
-    var(--secondary-color) 30%,
-    var(--secondary-color) 35%,
-    transparent 35%,
-    transparent 40%,
-    var(--secondary-color) 40%,
-    var(--secondary-color) 45%,
-    transparent 45%,
-    transparent 50%,
-    var(--secondary-color) 50%,
-    var(--secondary-color) 55%,
-    transparent 55%,
-    transparent 60%,
-    var(--secondary-color) 60%,
-    var(--secondary-color) 65%,
-    transparent 65%,
-    transparent 70%,
-    var(--secondary-color) 70%,
-    var(--secondary-color) 75%,
-    transparent 70%,
-    transparent 80%,
-    var(--secondary-color) 80%,
-    var(--secondary-color) 85%,
-    transparent 85%,
-    transparent 90%,
-    var(--secondary-color) 90%,
-    var(--secondary-color) 95%,
-    transparent 95%
-  );
+  background: linear-gradient( 45deg, var(--secondary-color) 0%, var(--secondary-color) 5%, transparent 5%, transparent 10%, var(--secondary-color) 10%, var(--secondary-color) 15%, transparent 15%, transparent 20%, var(--secondary-color) 20%, var(--secondary-color) 25%, transparent 25%, transparent 30%, var(--secondary-color) 30%, var(--secondary-color) 35%, transparent 35%, transparent 40%, var(--secondary-color) 40%, var(--secondary-color) 45%, transparent 45%, transparent 50%, var(--secondary-color) 50%, var(--secondary-color) 55%, transparent 55%, transparent 60%, var(--secondary-color) 60%, var(--secondary-color) 65%, transparent 65%, transparent 70%, var(--secondary-color) 70%, var(--secondary-color) 75%, transparent 70%, transparent 80%, var(--secondary-color) 80%, var(--secondary-color) 85%, transparent 85%, transparent 90%, var(--secondary-color) 90%, var(--secondary-color) 95%, transparent 95% );
   border-radius: 12px;
   color: var(--primary-color) !important;
   border: solid 2px var(--primary-color);
 }
-.referral-link:hover {
-  background-color: var(--secondary-color);
-}
+
+  .referral-link:hover {
+    background-color: var(--secondary-color);
+  }
 
 a.referral-link {
   text-decoration: none;
@@ -156,15 +74,17 @@ a.referral-link {
   gap: 1rem;
   margin: 0.5rem;
 }
+
 .admin-button {
   background-color: var(--primary-color);
   border-radius: 12px;
 }
 
-.admin-button:hover {
-  background-color: var(--secondary-color);
-  color: var(--primary-color);
-}
+  .admin-button:hover {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+  }
+
 .room-member {
   display: flex;
   flex-direction: column;
@@ -176,16 +96,15 @@ a.referral-link {
   background-color: var(--secondary-color);
   color: var(--primary-color);
   border-radius: 12px;
-  box-shadow: var(--shadow-color) 0px 4px 8px -2px,
-    var(--shadow-color) 0px 0px 0px 1px;
+  box-shadow: var(--shadow-color) 0px 4px 8px -2px, var(--shadow-color) 0px 0px 0px 1px;
 }
 
-.room-member > * {
-}
+  .room-member > * {
+  }
 
-.room-member > .member-vote {
-  text-align: center;
-}
+  .room-member > .member-vote {
+    text-align: center;
+  }
 
 .voted {
   background: none;
@@ -199,4 +118,21 @@ a.referral-link {
   flex-wrap: wrap;
   gap: 1rem;
   margin: 0.5rem;
+}
+
+.validation-message {
+  color: var(--danger-color);
+}
+
+#error-message {
+  align-self: stretch;
+  background-color: #fdd;
+  border: solid 2px #f22;
+  padding-inline: 0.5rem;
+  padding-block: 0.25rem;
+}
+
+form > a{
+  text-decoration: none;
+  color: var(--primary-color);
 }

@@ -1,0 +1,71 @@
+﻿@page "/join-room"
+@rendermode InteractiveServer
+
+@inject RoomService RoomService
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<PageTitle>Join Room - PPoker</PageTitle>
+
+<div id="pg-join-room">
+    <div class="card">
+        <h3>ورود به اتاق</h3>
+        <EditForm Model="_model" OnValidSubmit="OnValidSubmitAsync">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            @if (_errorMessage is not null)
+            {
+                <div id="error-message">
+                    <div class="validation-message">@_errorMessage</div>
+                </div>
+            }
+            <div>
+                <label>کد اتاق</label>
+                <InputText @bind-Value="_model.RoomId" dir="auto" />
+                <ValidationMessage For="() => _model.RoomId" />
+            </div>
+            <div>
+                <label>نام</label>
+                <InputText @bind-Value="_model.Name" class="on-nav-focus-catcher" dir="auto" />
+                <ValidationMessage For="() => _model.Name" />
+            </div>
+            <button type="submit">پیوستن</button>
+            <NavLink href="/create-room">ساختن اتاق جدید</NavLink>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    public string? Name { get; set; } = "";
+
+    [SupplyParameterFromQuery]
+    public Guid RoomId { get; set; } = Guid.Empty;
+
+    Model _model = new();
+    string? _errorMessage;
+
+    protected override void OnInitialized()
+    {
+        _model.Name = Name ?? "";
+        _model.RoomId = RoomId.ToString();
+    }
+
+    private async Task OnValidSubmitAsync()
+    {
+        var userId = await AuthenticationStateProvider.GetUserIdAsync();
+        var result = RoomService.JoinRoom(Guid.Parse(_model.RoomId), userId, _model.Name);
+        result.Match(
+            _ => NavigationManager.NavigateTo("/room/" + _model.RoomId),
+            _ => _errorMessage = "اتاق پیدا نشد");
+    }
+
+    class Model
+    {
+        [Required(ErrorMessage = "پر کردن فیلد نام الزامی است")]
+        public string Name { get; set; } = "";
+
+        [Required(ErrorMessage = "پر کردن فیلد کد اتاق الزامی است")]
+        public string RoomId { get; set; } = "";
+    }
+}

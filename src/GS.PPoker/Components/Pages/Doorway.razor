@@ -1,0 +1,87 @@
+﻿@page "/doorway"
+@rendermode InteractiveServer
+
+@inject RoomService RoomService
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<div id="pg-doorway">
+
+    <div class="card">
+        <h3>ساختن اتاق</h3>
+        <EditForm Model="_model" OnValidSubmit="OnValidSubmitCreate">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <div>
+                <label>نام</label>
+                <InputText @bind-Value="_model.Name" class="on-nav-focus-catcher" dir="auto" />
+                <ValidationMessage For="() => _model.Name" />
+            </div>
+            <div>
+                <label>رای‌ها</label>
+                <InputText @bind-Value="_model.PossibleVotes" dir="ltr" />
+                <ValidationMessage For="() => _model.PossibleVotes" />
+            </div>
+            <button type="submit">ساختن اتاق</button>
+        </EditForm>
+    </div>
+
+    <div class="card">
+        <h3>ورود به اتاق</h3>
+        <EditForm Model="_model" OnValidSubmit="OnValidSubmitJoinAsync">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            @if (_joinErrorMsg is not null)
+            {
+                <div id="error-message">
+                    <div class="validation-message">@_joinErrorMsg</div>
+                </div>
+            }
+            <div>
+                <label>کد اتاق</label>
+                <InputText @bind-Value="_model.RoomId" dir="auto" />
+                <ValidationMessage For="() => _model.RoomId" />
+            </div>
+            <div>
+                <label>نام</label>
+                <InputText @bind-Value="_model.Name" dir="auto" />
+                <ValidationMessage For="() => _model.Name" />
+            </div>
+            <button type="submit">پیوستن</button>
+            <NavLink href="/create-room">ساختن اتاق جدید</NavLink>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    Model _model = new();
+
+    string? _joinErrorMsg;
+
+    protected override void OnInitialized()
+    {
+        _model.PossibleVotes = RoomService.DefaultVotes ?? "";
+    }
+
+    private void OnValidSubmitCreate()
+    {
+        NavigationManager.NavigateTo($"/create-room?name={_model.Name}&votes={_model.PossibleVotes}");
+    }
+
+    private async Task OnValidSubmitJoinAsync()
+    {
+        var userId = await AuthenticationStateProvider.GetUserIdAsync();
+        var result = RoomService.JoinRoom(Guid.Parse(_model.RoomId), userId, _model.Name);
+
+        result.Match(
+            _ => NavigationManager.NavigateTo("/room/" + _model.RoomId),
+            _ => _joinErrorMsg = "اتاق پیدا نشد");
+    }
+
+    class Model
+    {
+        public string Name { get; set; } = "";
+        public string RoomId { get; set; } = "";
+        public string PossibleVotes { get; set; } = "";
+    }
+}

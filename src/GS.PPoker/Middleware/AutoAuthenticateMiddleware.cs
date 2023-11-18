@@ -1,14 +1,20 @@
-﻿using System.Security.Claims;
+﻿using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
 
-using Microsoft.AspNetCore.Authentication;
+namespace GS.PPoker.Middleware;
 
-namespace GS.PPoker.Pages;
-
-internal static class HttpContextExtensions
+public class AutoAuthenticateMiddleware(RequestDelegate next)
 {
-    public static async Task EnsureSignedInAsync(this HttpContext ctx)
+    public async Task InvokeAsync(HttpContext ctx)
     {
-        if (ctx.User.Identity?.IsAuthenticated == true) return;
+        await EnsureSignedInAsync(ctx);
+        await next.Invoke(ctx);
+    }
+
+    private static async Task EnsureSignedInAsync(HttpContext ctx)
+    {
+        if (ctx.User.Identity?.IsAuthenticated == true)
+            return;
 
         var timeProvider = ctx.RequestServices.GetRequiredService<TimeProvider>();
         var now = timeProvider.GetUtcNow();
