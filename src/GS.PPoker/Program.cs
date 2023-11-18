@@ -12,9 +12,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSerilog((serviceProvider, logConfig) => logConfig
     .ReadFrom.Configuration(builder.Configuration));
 
-builder.Services.AddProblemDetails();
-
-builder.Services.AddRazorPages();
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 
 var dataProtectionKeysPath = Path.Combine(
@@ -36,8 +33,17 @@ builder.Services.AddSingleton<RoomService>();
 
 var app = builder.Build();
 
-app.UseExceptionHandler();
-app.UseStatusCodePages();
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+else
+{
+    app.UseExceptionHandler("/error", createScopeForErrors: true);
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 
@@ -49,8 +55,6 @@ app.UseAuthorization();
 app.UseMiddleware<AutoAuthenticateMiddleware>();
 
 app.UseAntiforgery();
-
-app.MapRazorPages();
 app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
 
 app.MapGet("/", () => Results.LocalRedirect("~/doorway"));

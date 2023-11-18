@@ -30,17 +30,17 @@
                 <ValidationMessage For="() => _model.Name" />
             </div>
             <button type="submit">پیوستن</button>
-            <NavLink href="/create-room">ساختن اتاق جدید</NavLink>
+            <NavLink href="create-room">ساختن اتاق جدید</NavLink>
         </EditForm>
     </div>
 </div>
 
 @code {
     [SupplyParameterFromQuery]
-    public string? Name { get; set; } = "";
+    public string? Name { get; set; }
 
     [SupplyParameterFromQuery]
-    public Guid RoomId { get; set; } = Guid.Empty;
+    public Guid? RoomId { get; set; }
 
     Model _model = new();
     string? _errorMessage;
@@ -48,7 +48,7 @@
     protected override void OnInitialized()
     {
         _model.Name = Name ?? "";
-        _model.RoomId = RoomId.ToString();
+        _model.RoomId = RoomId?.ToString() ?? "";
     }
 
     private async Task OnValidSubmitAsync()
