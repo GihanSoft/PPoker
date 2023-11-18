@@ -3,7 +3,12 @@ using GS.PPoker.Services;
 
 using Microsoft.AspNetCore.DataProtection;
 
+using Serilog;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSerilog((serviceProvider, logConfig) => logConfig
+    .ReadFrom.Configuration(builder.Configuration));
 
 builder.Services.AddProblemDetails();
 
