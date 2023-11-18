@@ -1,7 +1,5 @@
 ﻿using System.Security.Claims;
 
-using GS.PPoker.Services;
-
 using Microsoft.AspNetCore.Authentication;
 
 namespace GS.PPoker.Pages;
@@ -15,7 +13,7 @@ internal static class HttpContextExtensions
         var timeProvider = ctx.RequestServices.GetRequiredService<TimeProvider>();
         var now = timeProvider.GetUtcNow();
 
-        Claim[] claims = { new("id", Guid.NewGuid().ToString("N")) };
+        Claim[] claims = [new("id", Guid.NewGuid().ToString("N"))];
         ClaimsIdentity identity = new(claims, "auth");
         ClaimsPrincipal principal = new(identity);
 

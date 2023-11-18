@@ -1,6 +1,4 @@
-﻿@using GS.PPoker.Pages.Shared
-
-<Router AppAssembly="typeof(App).Assembly">
+﻿<Router AppAssembly="typeof(App).Assembly">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layouts.MainLayout)" />
         <FocusOnNavigate RouteData="@routeData" Selector=".on-nav-focus-catcher" />
