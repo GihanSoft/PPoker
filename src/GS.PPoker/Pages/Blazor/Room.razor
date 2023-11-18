@@ -15,57 +15,53 @@
 @inject LinkGenerator LinkGenerator
 
 <div id="pg-room">
-    <div id="room-container">
-        <div id="vote-button-panel">
-            @if (NavigationManager.BaseUri.StartsWith("https", StringComparison.OrdinalIgnoreCase))
-            {
-                <button class="referral-link" onclick="navigator.clipboard.writeText('@JoinLink')">
-                    کپی کردن لینک دعوت
-                </button>
-            }
-            else
-            {
-                <button class="referral-link">
-                    <a href="@JoinLink">لینک دعوت</a>
-                </button>
-            }
+    <div id="vote-button-panel">
+        @if (NavigationManager.BaseUri.StartsWith("https", StringComparison.OrdinalIgnoreCase))
+        {
+            <button class="referral-link" onclick="navigator.clipboard.writeText('@JoinLink')">
+                کپی کردن لینک دعوت
+            </button>
+        }
+        else
+        {
+            <a class="referral-link" href="@JoinLink">لینک دعوت</a>
+        }
 
-            @if (IsOwner)
-            {
-                <button @onclick="OnRevealVotes" class="admin-button">نمایش رای‌ها</button>
-                <button @onclick="OnClearVotes" class="admin-button">پاک کردن رای‌ها</button>
-            }
-        </div>
+        @if (IsOwner)
+        {
+            <button @onclick="OnRevealVotes" class="admin-button">نمایش رای‌ها</button>
+            <button @onclick="OnClearVotes" class="admin-button">پاک کردن رای‌ها</button>
+        }
+    </div>
 
-        <div id="data-panel">
-            @if (!double.IsNaN(_room.AverageOfVotes))
-            {
-                <div class="data-item">
-                    <span>میانگین رای‌ها:</span>
-                    <span>@_room.AverageOfVotes.ToString("0.#")</span>
-                </div>
-            }
-        </div>
+    <div id="data-panel">
+        @if (!double.IsNaN(_room.AverageOfVotes))
+        {
+            <div class="data-item">
+                <span>میانگین رای‌ها:</span>
+                <span>@_room.AverageOfVotes.ToString("0.#")</span>
+            </div>
+        }
+    </div>
 
-        <div id="vote-card-panel">
-            @for (var i = 0; i < _room.PossibleVotes.Count; i++)
-            {
-                var temp = i;
-                <button class='@(_myVote == i ? "my-vote" : "")' @onclick="() => OnVote(temp)">
-                    @_room.PossibleVotes[i]
-                </button>
-            }
-        </div>
+    <div id="vote-card-panel">
+        @for (var i = 0; i < _room.PossibleVotes.Count; i++)
+        {
+            var temp = i;
+            <button class='@(_myVote == i ? "my-vote" : "")' @onclick="() => OnVote(temp)">
+                @_room.PossibleVotes[i]
+            </button>
+        }
+    </div>
 
-        <div id="member-panel">
-            @foreach (var mem in _room.Members)
-            {
-                <div class='@(mem.Vote is not null ? "room-member voted" : "room-member")'>
-                    <div class="member-name">@mem.Name</div>
-                    <div class="member-vote">@mem.Vote?.ToString()</div>
-                </div>
-            }
-        </div>
+    <div id="member-panel">
+        @foreach (var mem in _room.Members)
+        {
+            <div class='@(mem.Vote is not null ? "room-member voted" : "room-member")'>
+                <div class="member-name">@mem.Name</div>
+                <div class="member-vote">@mem.Vote?.ToString()</div>
+            </div>
+        }
     </div>
 </div>
 
