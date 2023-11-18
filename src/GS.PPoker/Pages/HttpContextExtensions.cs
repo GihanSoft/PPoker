@@ -12,7 +12,7 @@ internal static class HttpContextExtensions
     {
         if (ctx.User.Identity?.IsAuthenticated == true) return;
 
-        var timeProvider = ctx.RequestServices.GetRequiredService<TimeProvider>();
+        var timeProvider = ctx.RequestServices.GetRequiredService<Services.TimeProvider>();
         var now = timeProvider.UtcNow;
 
         Claim[] claims = { new("id", Guid.NewGuid().ToString("N")) };

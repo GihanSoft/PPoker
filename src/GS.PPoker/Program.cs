@@ -27,7 +27,7 @@ builder.Services.AddAuthentication()
         opt.SlidingExpiration = true;
     });
 
-builder.Services.AddSingleton(TimeProvider.System);
+builder.Services.AddSingleton(GS.PPoker.Services.TimeProvider.System);
 
 builder.Services.Configure<RoomOptions>(builder.Configuration.GetSection(RoomOptions.ConfigSectionKey));
 builder.Services.AddSingleton<RoomService>();
