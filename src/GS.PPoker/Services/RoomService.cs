@@ -26,7 +26,7 @@ public class RoomService : IDisposable
         _roomOptionsMonitor = roomOptionsMonitor;
         _timeProvider = timeProvider;
 
-        _timer = new PeriodicTimer(TimeSpan.FromSeconds(10));
+        _timer = new PeriodicTimer(TimeSpan.FromSeconds(10), timeProvider);
         _ = TimerLoop();
     }
 
@@ -38,7 +38,7 @@ public class RoomService : IDisposable
         Room room = new(owner, votes);
         _rooms[room.Id] = room;
         _observers[room.Id] = null;
-        _lastAccessList[room.Id] = _timeProvider.UtcNow.UtcDateTime;
+        _lastAccessList[room.Id] = _timeProvider.GetUtcNow().UtcDateTime;
         return room.Id;
     }
 
@@ -121,7 +121,7 @@ public class RoomService : IDisposable
 
     private void NotifyObservers(Room room)
     {
-        _lastAccessList[room.Id] = _timeProvider.UtcNow.UtcDateTime;
+        _lastAccessList[room.Id] = _timeProvider.GetUtcNow().UtcDateTime;
         var observerSet = _observers[room.Id];
         ReadOnlyRoom roRoom = room.ToReadOnly(room.AreVotesRevealed);
         observerSet?.GetInvocationList().Iter(x => Task.Run(() => x.DynamicInvoke(roRoom)));
@@ -132,7 +132,7 @@ public class RoomService : IDisposable
         while (await _timer.WaitForNextTickAsync())
         {
             var idleLife = _roomOptionsMonitor.CurrentValue.IdleLifeSpan;
-            var now = _timeProvider.UtcNow.UtcDateTime;
+            var now = _timeProvider.GetUtcNow().UtcDateTime;
             var abandonedRooms = _lastAccessList.Where(p =>
                 (now - p.Value) > idleLife &&
                 _observers[p.Key]?.GetInvocationList().Length is null or 0)
