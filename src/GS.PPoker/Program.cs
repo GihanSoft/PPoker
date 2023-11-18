@@ -1,3 +1,4 @@
+using GS.PPoker.Components;
 using GS.PPoker.Options;
 using GS.PPoker.Services;
 
@@ -13,7 +14,7 @@ builder.Services.AddSerilog((serviceProvider, logConfig) => logConfig
 builder.Services.AddProblemDetails();
 
 builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor();
+builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 
 var dataProtectionKeysPath = Path.Combine(
     builder.Environment.ContentRootPath,
@@ -44,8 +45,10 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseAntiforgery();
+
 app.MapRazorPages();
-app.MapBlazorHub();
+app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
 
 app.MapGet("/", () => Results.LocalRedirect("~/doorway"));
 

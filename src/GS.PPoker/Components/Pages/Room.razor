@@ -1,4 +1,6 @@
 ﻿@page "/room/{id:guid}"
+@rendermode InteractiveServer
+
 @implements IDisposable
 
 @using Microsoft.AspNetCore.Components.Authorization
@@ -12,7 +14,8 @@
 @inject RoomService RoomService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager NavigationManager
-@inject LinkGenerator LinkGenerator
+
+<PageTitle>PPoker Room</PageTitle>
 
 <div id="pg-room">
     <div id="vote-button-panel">
