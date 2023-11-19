@@ -31,6 +31,8 @@ builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.Configure<RoomOptions>(builder.Configuration.GetSection(RoomOptions.ConfigSectionKey));
 builder.Services.AddSingleton<RoomService>();
 
+builder.Services.AddScoped<BaseUrlProvider>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
