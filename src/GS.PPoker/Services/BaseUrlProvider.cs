@@ -6,6 +6,5 @@ namespace GS.PPoker.Services;
 
 public class BaseUrlProvider(NavigationManager navigationManager)
 {
-    private static string? _baseUrlCatch;
-    public string BaseUrl => _baseUrlCatch ??= navigationManager.BaseUri.Apply(x => new Uri(x).AbsolutePath);
+    public string BaseUrl { get; } = navigationManager.BaseUri.Apply(x => new Uri(x).AbsolutePath);
 }
