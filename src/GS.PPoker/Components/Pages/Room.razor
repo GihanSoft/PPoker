@@ -16,16 +16,7 @@
 
 <div id="pg-room">
     <div id="vote-button-panel">
-        @if (NavigationManager.BaseUri.StartsWith("https", StringComparison.OrdinalIgnoreCase))
-        {
-            <button class="referral-link" onclick="navigator.clipboard.writeText('@JoinLink')">
-                کپی کردن لینک دعوت
-            </button>
-        }
-        else
-        {
-            <NavLink class="referral-link" href="@JoinLink">لینک دعوت</NavLink>
-        }
+        <NavLink class="referral-link" href="@JoinLink">لینک دعوت</NavLink>
 
         @if (IsOwner)
         {

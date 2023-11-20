@@ -48,7 +48,7 @@
         var userId = await AuthenticationStateProvider.GetUserIdAsync();
         var votes = Arr.create(_model.PossibleVotes.Split(','));
         var roomId = RoomService.CreateRoom(userId, _model.Name, votes);
-        NavigationManager.NavigateTo("/room/" + roomId);
+        NavigationManager.NavigateTo("room/" + roomId);
     }
 
     class Model

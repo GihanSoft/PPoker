@@ -56,7 +56,7 @@
         var userId = await AuthenticationStateProvider.GetUserIdAsync();
         var result = RoomService.JoinRoom(Guid.Parse(_model.RoomId), userId, _model.Name);
         result.Match(
-            _ => NavigationManager.NavigateTo("/room/" + _model.RoomId),
+            _ => NavigationManager.NavigateTo("room/" + _model.RoomId),
             _ => _errorMessage = "اتاق پیدا نشد");
     }
 

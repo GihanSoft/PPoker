@@ -64,7 +64,7 @@
 
     private void OnValidSubmitCreate()
     {
-        NavigationManager.NavigateTo($"/create-room?name={_model.Name}&votes={_model.PossibleVotes}");
+        NavigationManager.NavigateTo($"create-room?name={_model.Name}&votes={_model.PossibleVotes}");
     }
 
     private async Task OnValidSubmitJoinAsync()
@@ -73,7 +73,7 @@
         var result = RoomService.JoinRoom(Guid.Parse(_model.RoomId), userId, _model.Name);
 
         result.Match(
-            _ => NavigationManager.NavigateTo("/room/" + _model.RoomId),
+            _ => NavigationManager.NavigateTo("room/" + _model.RoomId),
             _ => _joinErrorMsg = "اتاق پیدا نشد");
     }
 
