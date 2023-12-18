@@ -8,7 +8,7 @@ using Microsoft.Extensions.Options;
 
 namespace GS.PPoker.Services;
 
-public class RoomService : IDisposable
+internal class RoomService : IDisposable
 {
     private readonly IOptionsMonitor<RoomOptions> _roomOptionsMonitor;
     private readonly TimeProvider _timeProvider;

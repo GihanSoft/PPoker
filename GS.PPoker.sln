@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GS.PPoker", "src\GS.PPoker\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{40B463CD-88F9-46F4-8C1C-D1E2DC83024E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{4D80A79A-DD71-49DF-BF55-3E1B77242F9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GS.PPoker.Test", "test\GS.PPoker.Test\GS.PPoker.Test.csproj", "{AF2CB950-F540-48B2-A8E7-AACC9B5352FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,12 +21,17 @@ Global
 		{ED18195F-D3B5-4F83-9001-E50870D8314E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED18195F-D3B5-4F83-9001-E50870D8314E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED18195F-D3B5-4F83-9001-E50870D8314E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF2CB950-F540-48B2-A8E7-AACC9B5352FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF2CB950-F540-48B2-A8E7-AACC9B5352FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF2CB950-F540-48B2-A8E7-AACC9B5352FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF2CB950-F540-48B2-A8E7-AACC9B5352FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{ED18195F-D3B5-4F83-9001-E50870D8314E} = {40B463CD-88F9-46F4-8C1C-D1E2DC83024E}
+		{AF2CB950-F540-48B2-A8E7-AACC9B5352FE} = {4D80A79A-DD71-49DF-BF55-3E1B77242F9C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6D55A26D-69D7-4E88-BE59-B2D2A281B623}
