@@ -19,6 +19,7 @@
   <ItemGroup>
     <PackageReference Include="LanguageExt.Core" Version="4.4.3" />
     <PackageReference Include="StronglyTypedId" Version="1.0.0-beta07" />
+    <PackageReference Include="Nito.Disposables" Version="2.5.0" />
   </ItemGroup>
 
   <ItemGroup Label="Serilog">

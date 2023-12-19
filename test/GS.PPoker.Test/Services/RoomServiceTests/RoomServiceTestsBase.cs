@@ -1,5 +1,8 @@
-﻿using GS.PPoker.Options;
+﻿using GS.PPoker.Models;
+using GS.PPoker.Options;
 using GS.PPoker.Services;
+
+using LanguageExt;
 
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Time.Testing;
@@ -8,22 +11,29 @@ namespace GS.PPoker.Test.Services.RoomServiceTests
 {
     public abstract class RoomServiceTestsBase : IDisposable
     {
-        protected const string DefaultVotes = "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,18,20,22,24,26,28,30,32,34,36,38,40,44,48,52,56,60,64,68,72,80,88,96,104,112,∞";
+        private protected const string DefaultVotesString = "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,18,20,22,24,26,28,30,32,34,36,38,40,44,48,52,56,60,64,68,72,80,88,96,104,112,∞";
+        private protected static readonly TimeSpan DefaultIdleLifeSpan = TimeSpan.FromMinutes(10);
+        private protected static readonly Arr<string> DefaultVotes = Arr.create(DefaultVotesString.Split(','));
+
+        private protected static readonly ReadOnlyRoomMember DefaultOwner = new(Guid.NewGuid(), "owner", null);
 
         private protected readonly IOptionsMonitor<RoomOptions> _options = Substitute.For<IOptionsMonitor<RoomOptions>>();
-        private protected readonly TimeProvider _timeProvider = new FakeTimeProvider();
+        private protected readonly FakeTimeProvider _timeProvider = new FakeTimeProvider();
         private protected readonly RoomService _sut;
+
         private bool disposedValue;
 
-        public RoomServiceTestsBase()
+        public RoomServiceTestsBase() : this(DefaultVotesString, DefaultIdleLifeSpan) { }
+
+        public RoomServiceTestsBase(string defaultVotes, TimeSpan idleLifeSpan)
         {
             _options.CurrentValue.Returns(new RoomOptions
             {
-                DefaultVotes = DefaultVotes,
-                IdleLifeSpan = TimeSpan.FromMinutes(10),
+                DefaultVotes = defaultVotes,
+                IdleLifeSpan = idleLifeSpan,
             });
             _sut = new(_options, _timeProvider);
-            _sut.DefaultVotes.Should().Be(DefaultVotes);
+            _sut.DefaultVotes.Should().Be(defaultVotes);
         }
 
         protected virtual void Dispose(bool disposing)

@@ -7,6 +7,8 @@ using LanguageExt;
 
 using Microsoft.Extensions.Options;
 
+using Nito.Disposables;
+
 namespace GS.PPoker.Services;
 
 internal class RoomService : IDisposable
@@ -20,6 +22,8 @@ internal class RoomService : IDisposable
     private readonly Dictionary<RoomId, Room> _rooms = [];
     private readonly Dictionary<RoomId, Action<ReadOnlyRoom>?> _observers = [];
 
+    private readonly ReaderWriterLockSlim _lock = new();
+
     private bool disposedValue;
 
     public RoomService(IOptionsMonitor<RoomOptions> roomOptionsMonitor, TimeProvider timeProvider)
@@ -28,7 +32,7 @@ internal class RoomService : IDisposable
         _timeProvider = timeProvider;
 
         _timer = new PeriodicTimer(TimeSpan.FromSeconds(10), timeProvider);
-        _ = TimerLoop();
+        Task.Run(TimerLoop);
     }
 
     public string? DefaultVotes => _roomOptionsMonitor.CurrentValue.DefaultVotes;
@@ -45,6 +49,9 @@ internal class RoomService : IDisposable
 
     public Either<RoomNotFound, Unit> JoinRoom(RoomId roomId, UserId memberId, string memberName)
     {
+        _lock.EnterReadLock();
+        using var lockDisposable = Disposable.Create(_lock.ExitReadLock);
+
         if (!_rooms.TryGetValue(roomId, out var room)) { return RoomNotFound.Default; }
 
         if (room.Members.TryGetValue(memberId, out var member))
@@ -62,6 +69,9 @@ internal class RoomService : IDisposable
 
     public Either<IProblem, Unit> Vote(RoomId roomId, UserId memberId, int? vote)
     {
+        _lock.EnterReadLock();
+        using var lockDisposable = Disposable.Create(_lock.ExitReadLock);
+
         if (!_rooms.TryGetValue(roomId, out var room)) { return RoomNotFound.Default; }
 
         if (!room.Members.TryGetValue(memberId, out var member)) { return MemberNotFound.Default; }
@@ -83,6 +93,9 @@ internal class RoomService : IDisposable
 
     public Either<RoomNotFound, Unit> ClearVotes(RoomId roomId)
     {
+        _lock.EnterReadLock();
+        using var lockDisposable = Disposable.Create(_lock.ExitReadLock);
+
         if (!_rooms.TryGetValue(roomId, out var room)) { return RoomNotFound.Default; }
 
         room.Clear();
@@ -92,6 +105,9 @@ internal class RoomService : IDisposable
 
     public Either<RoomNotFound, Unit> RevealVotes(RoomId roomId)
     {
+        _lock.EnterReadLock();
+        using var lockDisposable = Disposable.Create(_lock.ExitReadLock);
+
         if (!_rooms.TryGetValue(roomId, out var room)) { return RoomNotFound.Default; }
 
         room.AreVotesRevealed = true;
@@ -102,6 +118,8 @@ internal class RoomService : IDisposable
 
     public Either<RoomNotFound, Unit> AddObserver(RoomId roomId, Action<ReadOnlyRoom> observer)
     {
+        _lock.EnterReadLock();
+
         if (!_rooms.ContainsKey(roomId)) { return RoomNotFound.Default; }
 
         _observers[roomId] += observer;
@@ -112,6 +130,9 @@ internal class RoomService : IDisposable
 
     public bool RemoveObserver(RoomId roomId, Action<ReadOnlyRoom> observer)
     {
+        _lock.EnterReadLock();
+        using var lockDisposable = Disposable.Create(_lock.ExitReadLock);
+
         if (!_rooms.ContainsKey(roomId)) { return false; }
 
         _observers[roomId] -= observer;
@@ -130,8 +151,11 @@ internal class RoomService : IDisposable
 
     private async Task TimerLoop()
     {
-        while (await _timer.WaitForNextTickAsync())
+        while (await _timer.WaitForNextTickAsync() && !disposedValue)
         {
+            _lock.EnterWriteLock();
+            using var lockDisposable = Disposable.Create(_lock.ExitWriteLock);
+
             var idleLife = _roomOptionsMonitor.CurrentValue.IdleLifeSpan;
             var now = _timeProvider.GetUtcNow().UtcDateTime;
             var abandonedRooms = _lastAccessList.Where(p =>
@@ -145,7 +169,11 @@ internal class RoomService : IDisposable
                 _observers.Remove(r);
                 _rooms.Remove(r);
             });
+
+            _lock.ExitWriteLock();
         }
+
+        throw new TaskCanceledException();
     }
 
     protected virtual void Dispose(bool disposing)
