@@ -8,7 +8,7 @@ public class TimerLoopFunctionalityTests : RoomServiceTestsBase
     public void Should_RoomStillExist_When_JustBeforeAllowedIdleSpan()
     {
         // Arrange
-        var roomId = _sut.CreateRoom(DefaultOwner.UserId, DefaultOwner.Name, DefaultVotes);
+        var roomId = CreateDefaultRoom();
 
         // Act
         _timeProvider.Advance(DefaultIdleLifeSpan - TimeSpan.FromTicks(1));
@@ -22,7 +22,7 @@ public class TimerLoopFunctionalityTests : RoomServiceTestsBase
     public void Should_RoomStillExist_When_JustOnAllowedIdleSpan()
     {
         // Arrange
-        var roomId = _sut.CreateRoom(DefaultOwner.UserId, DefaultOwner.Name, DefaultVotes);
+        var roomId = CreateDefaultRoom();
 
         // Act
         _timeProvider.Advance(DefaultIdleLifeSpan);
@@ -36,7 +36,7 @@ public class TimerLoopFunctionalityTests : RoomServiceTestsBase
     public void Should_NotThrow_When_JustAfterAllowedIdleSpan()
     {
         // Arrange
-        var roomId = _sut.CreateRoom(DefaultOwner.UserId, DefaultOwner.Name, DefaultVotes);
+        var roomId = CreateDefaultRoom();
 
         // Act
         _timeProvider.Advance(DefaultIdleLifeSpan + TimeSpan.FromTicks(1));
@@ -50,7 +50,7 @@ public class TimerLoopFunctionalityTests : RoomServiceTestsBase
     public void Should_RoomNotExist_When_OneMinuteAfterAllowedIdleSpan()
     {
         // Arrange
-        var roomId = _sut.CreateRoom(DefaultOwner.UserId, DefaultOwner.Name, DefaultVotes);
+        var roomId = CreateDefaultRoom();
 
         // Act
         _timeProvider.Advance(DefaultIdleLifeSpan + TimeSpan.FromMinutes(1));

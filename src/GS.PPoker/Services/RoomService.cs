@@ -119,6 +119,7 @@ internal class RoomService : IDisposable
     public Either<RoomNotFound, Unit> AddObserver(RoomId roomId, Action<ReadOnlyRoom> observer)
     {
         _lock.EnterReadLock();
+        using var lockDisposable = Disposable.Create(_lock.ExitReadLock);
 
         if (!_rooms.ContainsKey(roomId)) { return RoomNotFound.Default; }
 
@@ -183,6 +184,7 @@ internal class RoomService : IDisposable
             if (disposing)
             {
                 _timer.Dispose();
+                _lock.Dispose();
             }
 
             disposedValue = true;
