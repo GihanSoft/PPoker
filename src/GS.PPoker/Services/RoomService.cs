@@ -1,4 +1,5 @@
 using GS.PPoker.Models;
+using GS.PPoker.Models.ValueObjects;
 using GS.PPoker.Options;
 using GS.PPoker.Problems;
 
