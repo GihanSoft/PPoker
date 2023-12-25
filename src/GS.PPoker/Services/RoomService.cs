@@ -63,7 +63,7 @@ internal class RoomService : IDisposable
             room.Join(new RoomMember(memberId, memberName));
         }
 
-        NotifyObservers(room);
+        _ = NotifyObservers(room);
         return Unit.Default;
     }
 
@@ -84,10 +84,11 @@ internal class RoomService : IDisposable
 
         room.AverageOfVotes = room.Members.Values
             .ToSeq()
-            .Select(m => Prelude.parseInt(m.Vote).ToNullable())
+            .Select(m => Prelude.parseDouble(m.Vote).ToNullable())
+            .Where(m => m.HasValue && m.Value >= 0)
             .Average() ?? 0.0;
 
-        NotifyObservers(room);
+        _ = NotifyObservers(room);
         return Unit.Default;
     }
 
@@ -99,7 +100,7 @@ internal class RoomService : IDisposable
         if (!_rooms.TryGetValue(roomId, out var room)) { return RoomNotFound.Default; }
 
         room.Clear();
-        NotifyObservers(room);
+        _ = NotifyObservers(room);
         return Unit.Default;
     }
 
@@ -112,7 +113,7 @@ internal class RoomService : IDisposable
 
         room.AreVotesRevealed = true;
 
-        NotifyObservers(room);
+        _ = NotifyObservers(room);
         return Unit.Default;
     }
 
@@ -125,7 +126,7 @@ internal class RoomService : IDisposable
 
         _observers[roomId] += observer;
 
-        NotifyObservers(_rooms[roomId]);
+        _ = NotifyObservers(_rooms[roomId]);
         return Unit.Default;
     }
 
@@ -138,16 +139,20 @@ internal class RoomService : IDisposable
 
         _observers[roomId] -= observer;
 
-        NotifyObservers(_rooms[roomId]);
+        _ = NotifyObservers(_rooms[roomId]);
         return true;
     }
 
-    private void NotifyObservers(Room room)
+    private async Task NotifyObservers(Room room)
     {
-        _lastAccessList[room.Id] = _timeProvider.GetUtcNow().UtcDateTime;
-        var observerSet = _observers[room.Id];
-        ReadOnlyRoom roRoom = room.ToReadOnly(room.AreVotesRevealed);
-        observerSet?.GetInvocationList().Iter(x => Task.Run(() => x.DynamicInvoke(roRoom)));
+        Monitor.Enter(room);
+        using (Disposable.Create(() => Monitor.Exit(room)))
+        {
+            _lastAccessList[room.Id] = _timeProvider.GetUtcNow().UtcDateTime;
+            var observerArr = _observers[room.Id]?.GetInvocationList() ?? [];
+            ReadOnlyRoom roRoom = room.ToReadOnly(room.AreVotesRevealed);
+            await observerArr.Select(x => Task.Run(() => x.DynamicInvoke(roRoom))).Apply(Task.WhenAll);
+        }
     }
 
     private async Task TimerLoop()
