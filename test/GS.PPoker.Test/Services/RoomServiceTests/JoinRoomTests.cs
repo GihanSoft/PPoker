@@ -47,4 +47,38 @@ public class JoinRoomTests : RoomServiceTestsBase
             new ReadOnlyRoomMember(memberId, memberName, null)
         ));
     }
+
+    [Fact]
+    public async Task Should_OnlyChangeMemberName_WhenRoomAndMemberExists()
+    {
+        // Arrange
+        RoomId roomId = CreateDefaultRoom();
+        UserId memberId = Guid.NewGuid();
+        string memberNameBefore = "randomMemberBefore";
+        string memberNameAfter = "randomMemberBefore";
+
+        List<ReadOnlyRoom> callArgs = [];
+        _sut.AddObserver(roomId, callArgs.Add);
+
+        // Act
+        var resultJoin = _sut.JoinRoom(roomId, memberId, memberNameBefore);
+        var resultRename = _sut.JoinRoom(roomId, memberId, memberNameAfter);
+        await Task.Yield();
+
+        // Assert
+        resultJoin.Case.Should().Be(Prelude.unit);
+        resultRename.Case.Should().Be(Prelude.unit);
+        callArgs.Should().HaveCount(3);
+
+        var callListMembers = callArgs.ConvertAll(x => x.Members);
+        callListMembers[0].As<IComparable<Arr<ReadOnlyRoomMember>>>().Should().Be(Prelude.Array(DefaultOwner));
+        callListMembers[1].As<IComparable<Arr<ReadOnlyRoomMember>>>().Should().Be(Prelude.Array(
+            DefaultOwner,
+            new ReadOnlyRoomMember(memberId, memberNameBefore, null)
+        ));
+        callListMembers[2].As<IComparable<Arr<ReadOnlyRoomMember>>>().Should().Be(Prelude.Array(
+            DefaultOwner,
+            new ReadOnlyRoomMember(memberId, memberNameAfter, null)
+        ));
+    }
 }
