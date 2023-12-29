@@ -15,7 +15,7 @@ internal class RoomService : IDisposable
 {
     private readonly IOptionsMonitor<RoomOptions> _roomOptionsMonitor;
     private readonly TimeProvider _timeProvider;
-
+    private readonly ILogger<RoomService> _logger;
     private readonly PeriodicTimer _timer;
     private readonly Dictionary<RoomId, DateTime> _lastAccessList = [];
 
@@ -26,11 +26,11 @@ internal class RoomService : IDisposable
 
     private bool disposedValue;
 
-    public RoomService(IOptionsMonitor<RoomOptions> roomOptionsMonitor, TimeProvider timeProvider)
+    public RoomService(IOptionsMonitor<RoomOptions> roomOptionsMonitor, TimeProvider timeProvider, ILogger<RoomService> logger)
     {
         _roomOptionsMonitor = roomOptionsMonitor;
         _timeProvider = timeProvider;
-
+        _logger = logger;
         _timer = new PeriodicTimer(TimeSpan.FromSeconds(10), timeProvider);
         Task.Run(TimerLoop);
     }
@@ -151,7 +151,18 @@ internal class RoomService : IDisposable
             _lastAccessList[room.Id] = _timeProvider.GetUtcNow().UtcDateTime;
             var observerArr = _observers[room.Id]?.GetInvocationList() ?? [];
             ReadOnlyRoom roRoom = room.ToReadOnly(room.AreVotesRevealed);
-            await observerArr.Select(x => Task.Run(() => x.DynamicInvoke(roRoom))).Apply(Task.WhenAll);
+            observerArr.Iter(action =>
+            {
+                try
+                {
+                    action.DynamicInvoke(roRoom);
+                }
+                catch(Exception ex)
+                {
+                    var roomId = room.Id;
+                    _logger.Log(LogLevel.Error, ex, "error in notifying observer for room {roomId}", roomId);
+                }
+            });
         }
     }
 

@@ -49,7 +49,7 @@ public class JoinRoomTests : RoomServiceTestsBase
     }
 
     [Fact]
-    public async Task Should_OnlyChangeMemberName_WhenRoomAndMemberExists()
+    public void Should_OnlyChangeMemberName_WhenRoomAndMemberExists()
     {
         // Arrange
         RoomId roomId = CreateDefaultRoom();
@@ -63,7 +63,6 @@ public class JoinRoomTests : RoomServiceTestsBase
         // Act
         var resultJoin = _sut.JoinRoom(roomId, memberId, memberNameBefore);
         var resultRename = _sut.JoinRoom(roomId, memberId, memberNameAfter);
-        await Task.Yield();
 
         // Assert
         resultJoin.Case.Should().Be(Prelude.unit);

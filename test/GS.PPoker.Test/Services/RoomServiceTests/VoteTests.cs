@@ -51,7 +51,7 @@ namespace GS.PPoker.Test.Services.RoomServiceTests
         }
 
         [Fact]
-        public async Task Should_NullVoteAndZeroAverage_When_VoteIndexIsAfterLastPossibleVotes()
+        public void Should_NullVoteAndZeroAverage_When_VoteIndexIsAfterLastPossibleVotes()
         {
             // Arrange
             var roomId = _sut.CreateRoom(DefaultOwner.UserId, DefaultOwner.Name, DefaultVotes);
@@ -62,7 +62,6 @@ namespace GS.PPoker.Test.Services.RoomServiceTests
             // Act
             var result = _sut.Vote(roomId, DefaultOwner.UserId, voteIndex);
             _sut.RevealVotes(roomId);
-            await Task.Yield();
 
             // Assert
             result.Case.Should().Be(Prelude.unit);
@@ -102,7 +101,7 @@ namespace GS.PPoker.Test.Services.RoomServiceTests
         }
 
         [Fact]
-        public async Task Should_NullVoteAndZeroAverage_When_VoteIndexIsNegative()
+        public void Should_NullVoteAndZeroAverage_When_VoteIndexIsNegative()
         {
             // Arrange
             var roomId = _sut.CreateRoom(DefaultOwner.UserId, DefaultOwner.Name, DefaultVotes);
@@ -113,7 +112,6 @@ namespace GS.PPoker.Test.Services.RoomServiceTests
             // Act
             var result = _sut.Vote(roomId, DefaultOwner.UserId, voteIndex);
             _sut.RevealVotes(roomId);
-            await Task.Yield();
 
             // Assert
             result.Case.Should().Be(Prelude.unit);
@@ -153,7 +151,7 @@ namespace GS.PPoker.Test.Services.RoomServiceTests
         }
 
         [Fact]
-        public async Task Should_HaveZeroAverage_When_VoteIsNotNumber()
+        public void Should_HaveZeroAverage_When_VoteIsNotNumber()
         {
             // Arrange
             string[] possibleVotes = ["a"];
@@ -165,7 +163,6 @@ namespace GS.PPoker.Test.Services.RoomServiceTests
             // Act
             var result = _sut.Vote(roomId, DefaultOwner.UserId, voteIndex);
             _sut.RevealVotes(roomId);
-            await Task.Yield();
 
             // Assert
             result.Case.Should().Be(Prelude.unit);
@@ -205,7 +202,7 @@ namespace GS.PPoker.Test.Services.RoomServiceTests
         }
 
         [Fact]
-        public async Task Should_HaveZeroAverage_When_VoteIsNegativeNumber()
+        public void Should_HaveZeroAverage_When_VoteIsNegativeNumber()
         {
             // Arrange
             string[] possibleVotes = ["-1.5"];
@@ -217,7 +214,6 @@ namespace GS.PPoker.Test.Services.RoomServiceTests
             // Act
             var result = _sut.Vote(roomId, DefaultOwner.UserId, voteIndex);
             _sut.RevealVotes(roomId);
-            await Task.Yield();
 
             // Assert
             result.Case.Should().Be(Prelude.unit);
@@ -257,7 +253,7 @@ namespace GS.PPoker.Test.Services.RoomServiceTests
         }
 
         [Fact]
-        public async Task Should_CorrectValue_When_VoteIsDouble()
+        public void Should_CorrectValue_When_VoteIsDouble()
         {
             // Arrange
             string[] possibleVotes = ["1.2"];
@@ -269,7 +265,6 @@ namespace GS.PPoker.Test.Services.RoomServiceTests
             // Act
             var result = _sut.Vote(roomId, DefaultOwner.UserId, voteIndex);
             _sut.RevealVotes(roomId);
-            await Task.Yield();
 
             // Assert
             result.Case.Should().Be(Prelude.unit);
@@ -309,7 +304,7 @@ namespace GS.PPoker.Test.Services.RoomServiceTests
         }
 
         [Fact]
-        public async Task Should_CorrectValue_When_VoteIsInt()
+        public void Should_CorrectValue_When_VoteIsInt()
         {
             // Arrange
             string[] possibleVotes = ["12"];
@@ -321,7 +316,6 @@ namespace GS.PPoker.Test.Services.RoomServiceTests
             // Act
             var result = _sut.Vote(roomId, DefaultOwner.UserId, voteIndex);
             _sut.RevealVotes(roomId);
-            await Task.Yield();
 
             // Assert
             result.Case.Should().Be(Prelude.unit);
@@ -361,7 +355,7 @@ namespace GS.PPoker.Test.Services.RoomServiceTests
         }
 
         [Fact]
-        public async Task Should_RemoveVote_When_VoteIsNull()
+        public void Should_RemoveVote_When_VoteIsNull()
         {
             // Arrange
             var roomId = _sut.CreateRoom(DefaultOwner.UserId, DefaultOwner.Name, DefaultVotes);
@@ -373,7 +367,6 @@ namespace GS.PPoker.Test.Services.RoomServiceTests
             _sut.Vote(roomId, DefaultOwner.UserId, voteIndex);
             _sut.Vote(roomId, DefaultOwner.UserId, null);
             _sut.RevealVotes(roomId);
-            await Task.Yield();
 
             // Assert
             eventCallArgs.Count.Should().Be(4);

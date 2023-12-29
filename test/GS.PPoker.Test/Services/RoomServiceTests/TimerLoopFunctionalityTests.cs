@@ -1,6 +1,4 @@
-﻿using GS.PPoker.Test.Services.RoomServiceTests;
-
-namespace GS.PPoker.Services;
+﻿namespace GS.PPoker.Test.Services.RoomServiceTests;
 
 public class TimerLoopFunctionalityTests : RoomServiceTestsBase
 {

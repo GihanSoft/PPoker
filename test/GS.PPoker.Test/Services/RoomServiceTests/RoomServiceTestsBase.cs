@@ -5,6 +5,7 @@ using GS.PPoker.Services;
 
 using LanguageExt;
 
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Time.Testing;
 
@@ -19,7 +20,7 @@ public abstract class RoomServiceTestsBase : IDisposable
     private protected static readonly ReadOnlyRoomMember DefaultOwner = new(Guid.NewGuid(), "owner", null);
 
     private protected readonly IOptionsMonitor<RoomOptions> _options = Substitute.For<IOptionsMonitor<RoomOptions>>();
-    private protected readonly FakeTimeProvider _timeProvider = new FakeTimeProvider();
+    private protected readonly FakeTimeProvider _timeProvider = new();
     private protected readonly RoomService _sut;
 
     private bool disposedValue;
@@ -33,7 +34,7 @@ public abstract class RoomServiceTestsBase : IDisposable
             DefaultVotes = defaultVotes,
             IdleLifeSpan = idleLifeSpan,
         });
-        _sut = new(_options, _timeProvider);
+        _sut = new(_options, _timeProvider, Substitute.For<ILogger<RoomService>>());
         _sut.DefaultVotes.Should().Be(defaultVotes);
     }
 
