@@ -130,17 +130,16 @@ internal class RoomService : IDisposable
         return Unit.Default;
     }
 
-    public bool RemoveObserver(RoomId roomId, Action<ReadOnlyRoom> observer)
+    public Either<RoomNotFound, Unit> RemoveObserver(RoomId roomId, Action<ReadOnlyRoom> observer)
     {
         _lock.EnterReadLock();
         using var lockDisposable = Disposable.Create(_lock.ExitReadLock);
 
-        if (!_rooms.ContainsKey(roomId)) { return false; }
+        if (!_rooms.ContainsKey(roomId)) { return RoomNotFound.Default; }
 
         _observers[roomId] -= observer;
 
-        _ = NotifyObservers(_rooms[roomId]);
-        return true;
+        return Unit.Default;
     }
 
     private async Task NotifyObservers(Room room)
