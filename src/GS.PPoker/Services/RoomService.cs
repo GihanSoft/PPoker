@@ -122,11 +122,11 @@ internal class RoomService : IDisposable
         _lock.EnterReadLock();
         using var lockDisposable = Disposable.Create(_lock.ExitReadLock);
 
-        if (!_rooms.ContainsKey(roomId)) { return RoomNotFound.Default; }
+        if (!_rooms.TryGetValue(roomId, out Room? room)) { return RoomNotFound.Default; }
 
         _observers[roomId] += observer;
 
-        _ = NotifyObservers(_rooms[roomId]);
+        _ = NotifyObservers(room);
         return Unit.Default;
     }
 
